@@ -11,7 +11,7 @@
 | `superpowers` | Process backbone — enforces *how* to work | OpenCode plugin (auto-loads on session start) |
 | `agent-skills` | Lifecycle skills — covers *what* to do across the full SDLC | `AGENTS.md` + `.opencode/` package |
 
-They do not conflict. `agent-skills` was derived from `superpowers` and extends it. When both are active, `superpowers` provides the core process gates and `agent-skills` provides the domain-specific skills on top.
+They do not conflict. Both repos solve related problems independently: `superpowers` enforces process gates and `agent-skills` provides domain-specific lifecycle skills. When both are active, `superpowers` handles the core workflow enforcement and `agent-skills` handles skill selection and execution across the SDLC.
 
 ---
 
