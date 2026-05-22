@@ -66,6 +66,8 @@ Quick reference — add the term under the `## Language` section:
 _Avoid_: [synonym], [alias]
 ```
 
+Also add an example dialogue (see [CONTEXT-FORMAT.md](./CONTEXT-FORMAT.md) for format) if this is the first substantial entry or if the term's boundaries with related concepts are non-obvious.
+
 Group terms under subheadings only when natural clusters emerge. A flat list is fine for small glossaries.
 
 **CONTEXT.md must stay free of:**
@@ -88,7 +90,7 @@ If any condition is missing, skip the ADR. Most decisions do not need one.
 
 ### Step 5 — Cross-reference downstream skills
 
-After updating `CONTEXT.md`, check whether any in-progress spec or plan uses a term that now has a canonical name. If the term appears with a different name in a spec being written by `spec-driven-development`, flag it before the spec is committed.
+If a spec file (`docs/spec-*.md` or equivalent) exists and is actively being drafted, search it for the alias terms listed in `_Avoid_` for the entry you just added. If any alias appears in the spec, flag it to the user: state the old alias, the canonical name, and which file:line needs updating. Do not silently substitute — confirm the canonical name before editing the spec.
 
 ## Multi-context repos
 
