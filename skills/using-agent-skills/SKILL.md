@@ -142,18 +142,18 @@ For a complete feature, the typical skill sequence is:
 1.  interview-me                → Extract what the user actually wants
 2.  idea-refine                 → Refine vague ideas
 3.  spec-driven-development     → Define what we're building
-3a. ubiquitous-language        → Establish shared vocabulary before planning
-3b. vertical-slicing           → Determine slice boundaries before task breakdown
-4.  planning-and-task-breakdown → Break into verifiable chunks
-5.  context-engineering         → Load the right context
-6.  source-driven-development   → Verify against official docs
-7.  incremental-implementation  → Build slice by slice
-8.  doubt-driven-development    → Cross-examine non-trivial decisions in-flight
-9.  test-driven-development     → Prove each slice works
-10. code-review-and-quality     → Review before merge
-11. git-workflow-and-versioning → Clean commit history
-12. documentation-and-adrs      → Document decisions
-13. shipping-and-launch         → Deploy safely
+4.  ubiquitous-language         → Establish shared vocabulary before planning
+5.  vertical-slicing            → Determine slice boundaries before task breakdown
+6.  planning-and-task-breakdown → Break into verifiable chunks
+7.  context-engineering         → Load the right context
+8.  source-driven-development   → Verify against official docs
+9.  incremental-implementation  → Build slice by slice
+10. doubt-driven-development    → Cross-examine non-trivial decisions in-flight
+11. test-driven-development     → Prove each slice works
+12. code-review-and-quality     → Review before merge
+13. git-workflow-and-versioning → Clean commit history
+14. documentation-and-adrs      → Document decisions
+15. shipping-and-launch         → Deploy safely
 ```
 
 Not every task needs every skill. A bug fix might only need: `debugging-and-error-recovery` → `test-driven-development` → `code-review-and-quality`.
@@ -165,7 +165,7 @@ Not every task needs every skill. A bug fix might only need: `debugging-and-erro
 | Define | interview-me | Surface what the user actually wants before any plan, spec, or code exists |
 | Define | idea-refine | Refine ideas through structured divergent and convergent thinking |
 | Define | spec-driven-development | Requirements and acceptance criteria before code |
-| Plan | ubiquitous-language | Shared domain vocabulary — CONTEXT.md and lightweight ADRs |
+| Define | ubiquitous-language | Shared domain vocabulary — CONTEXT.md and lightweight ADRs |
 | Plan | vertical-slicing | Thin end-to-end slices, each independently demoable |
 | Plan | planning-and-task-breakdown | Decompose into small, verifiable tasks |
 | Build | incremental-implementation | Thin vertical slices, test each before expanding |

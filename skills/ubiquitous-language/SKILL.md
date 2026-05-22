@@ -56,9 +56,9 @@ Before writing anything, the term must be fully resolved:
 
 ### Step 3 — Update CONTEXT.md
 
-Update immediately — do not batch. Follow the format in [CONTEXT-FORMAT.md](./CONTEXT-FORMAT.md).
+Update immediately — do not batch.
 
-Quick reference — add the term under the `## Language` section:
+Add the term under the `## Language` section:
 
 ```markdown
 **[Term]**:
@@ -66,7 +66,25 @@ Quick reference — add the term under the `## Language` section:
 _Avoid_: [synonym], [alias]
 ```
 
-Also add an example dialogue (see [CONTEXT-FORMAT.md](./CONTEXT-FORMAT.md) for format) if this is the first substantial entry or if the term's boundaries with related concepts are non-obvious.
+**CONTEXT.md structure:**
+
+```markdown
+# {Context Name}
+
+{One or two sentence description of what this context is and why it exists.}
+
+## Language
+
+**Order**:
+{A one or two sentence description of the term}
+_Avoid_: Purchase, transaction
+
+**Invoice**:
+A request for payment sent to a customer after delivery.
+_Avoid_: Bill, payment request
+```
+
+If this is the first substantial entry, or if the term's boundaries with related concepts are non-obvious, also add an **example dialogue** — a short conversation between a developer and a domain expert that demonstrates how the terms interact and clarifies where one concept ends and another begins.
 
 Group terms under subheadings only when natural clusters emerge. A flat list is fine for small glossaries.
 
@@ -78,15 +96,30 @@ Group terms under subheadings only when natural clusters emerge. A flat list is 
 
 ### Step 4 — Offer an ADR (sparingly)
 
-Only offer an ADR when **all three** conditions are true. Follow the format in [ADR-FORMAT.md](./ADR-FORMAT.md).
-
-The three conditions:
+Only offer an ADR when **all three** conditions are true:
 
 1. **Hard to reverse** — the cost of changing the decision later is meaningful
 2. **Surprising without context** — a future reader would wonder "why did they do it this way?"
 3. **Result of a real trade-off** — genuine alternatives existed and one was chosen for specific reasons
 
 If any condition is missing, skip the ADR. Most decisions do not need one.
+
+**ADR format** (`docs/adr/0001-slug.md`, sequential numbering):
+
+```markdown
+# {Short title of the decision}
+
+{1-3 sentences: what's the context, what did we decide, and why.}
+```
+
+That's it. An ADR can be a single paragraph. Only add optional sections (`Status`, `Considered Options`, `Consequences`) when they add genuine value — most ADRs won't need them.
+
+**What qualifies for an ADR:**
+- Architectural shape ("we're using a monorepo", "the write model is event-sourced")
+- Integration patterns between contexts (domain events vs synchronous HTTP)
+- Technology choices that carry lock-in (database, message bus, auth provider)
+- Deliberate deviations from the obvious path — anything where a reasonable reader would assume the opposite
+- Constraints not visible in the code ("we can't use AWS because of compliance requirements")
 
 ### Step 5 — Cross-reference downstream skills
 
