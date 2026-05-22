@@ -11,6 +11,19 @@ A vertical slice cuts through all layers of the stack — schema, API, logic, UI
 
 This skill is the decomposition companion to `incremental-implementation` (which governs how to execute a slice) and `planning-and-task-breakdown` (which governs how to order slices). Use this skill when the right boundaries between slices are unclear.
 
+## When to Use
+
+Use this skill when:
+- A spec or requirement exists and you need to determine how to break the work into tasks
+- A task title describes a layer ("Add database schema", "Build API endpoints") rather than a behavior
+- The implementation order is unclear or risky
+- You're about to hand tasks to an agent and want to prevent integration failures
+
+**When NOT to use:**
+- Single-function changes that don't span multiple layers
+- A task already decomposed into well-specified behaviors by the caller
+- Pure infrastructure work with no user-facing or system-observable behavior
+
 ## The Core Distinction
 
 ```
@@ -55,6 +68,16 @@ Mark these explicitly so they are not handed to an AFK agent that will block.
 ### AFK Slice (Away From Keyboard)
 
 A slice that an agent can implement, test, and merge without human interaction. The majority of slices should be AFK. If a slice requires human judgment mid-implementation, it is either a HITL slice or it is not well-enough specified.
+
+**How to decide:**
+
+| Use HITL when... | Use AFK when... |
+| ---------------- | --------------- |
+| Acceptance criteria reference taste or judgment ("looks correct", "makes sense") | Acceptance criteria are fully mechanical (test passes, API returns X) |
+| An external approval or design review is required | No external approvals needed |
+| The decision depends on information the agent does not have at slice start | The agent has all information required at slice start |
+
+If uncertain, mark as HITL. A false HITL blocks briefly; a false AFK blocks indefinitely.
 
 ## How to Slice
 
