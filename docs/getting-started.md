@@ -125,6 +125,10 @@ The `references/` directory contains supplementary checklists:
 
 Load a reference when you need detailed patterns beyond what the skill covers.
 
+## Using superpowers + agent-skills together
+
+If you are running the `superpowers` process backbone alongside `agent-skills`, see [superpowers-workflow.md](superpowers-workflow.md) for a full phase-by-phase reference: which skills fire at each phase, what the hard gates are, and common mistakes to watch for.
+
 ## Spec and task artifacts
 
 The `/spec` and `/plan` commands create working artifacts (`SPEC.md`, `tasks/plan.md`, `tasks/todo.md`). Treat them as **living documents** while the work is in progress:
@@ -140,3 +144,52 @@ The `/spec` and `/plan` commands create working artifacts (`SPEC.md`, `tasks/pla
 3. **Don't skip verification steps** — they're the whole point
 4. **Load skills selectively** — more context isn't always better
 5. **Use the agents for review** — different perspectives catch different issues
+
+---
+
+## End-to-End Workflow Example
+
+This walkthrough traces a single task — "add a tagging feature to a task manager" — through the full skill lifecycle. It shows which skill fires at each phase, what layer of the three-layer architecture handles it (skill / persona / command), and what artifact is produced.
+
+### The Three Layers
+
+Before the walkthrough, here is how the three layers interact:
+
+| Layer | What it is | Examples |
+|-------|-----------|---------|
+| **Skills** | Step-by-step workflows the agent follows | `spec-driven-development`, `test-driven-development` |
+| **Personas** | Role-scoped agents invoked for review or analysis | `code-reviewer`, `security-auditor`, `test-engineer` |
+| **Commands** | Entry points that orchestrate skills and personas | `/spec`, `/build`, `/ship` |
+
+The user calls a command. The command loads a skill. The skill may invoke a persona. Skills and personas never call each other directly — the command is the orchestrator.
+
+### Walkthrough: "Add tagging to tasks"
+
+| Phase | What happens | Layer | Skill / Persona / Command | Output |
+|-------|-------------|-------|---------------------------|--------|
+| **1. Define** | User runs `/spec`. Agent runs `interview-me` to surface the real requirement (tags per task, not per user; no tag hierarchy needed). | Command → Skill | `/spec` → `spec-driven-development` | `SPEC.md` with acceptance criteria |
+| **2. Align vocabulary** | "Tag" appears in the spec without a definition. Agent runs `ubiquitous-language` and adds `Tag` to `CONTEXT.md`. | Skill | `ubiquitous-language` | `CONTEXT.md` updated |
+| **3. Plan** | User runs `/plan`. Agent applies `vertical-slicing` to produce three slices: create tag, assign tag to task, filter tasks by tag. Tracer bullet is Slice 1. | Command → Skill | `/plan` → `vertical-slicing` → `planning-and-task-breakdown` | `tasks/plan.md`, `tasks/todo.md` |
+| **4. Build – Slice 1** | User runs `/build`. Agent loads `incremental-implementation` and `test-driven-development`. Writes a failing test for "create tag," implements the minimum schema + API + UI, makes test pass, commits. | Command → Skill | `/build` → `incremental-implementation` + `test-driven-development` | Passing tests, committed slice |
+| **5. Build – Slices 2–3** | Agent repeats the increment cycle for each remaining slice. Each slice is independently committed. | Skill | `incremental-implementation` + `test-driven-development` | Full feature committed |
+| **6. Review** | User runs `/review`. Agent invokes the `code-reviewer` persona for a five-axis review. | Command → Persona | `/review` → `code-reviewer` | Review report with findings |
+| **7. Ship** | User runs `/ship`. Three personas run in parallel (`code-reviewer`, `security-auditor`, `test-engineer`). Main agent merges reports. | Command → Personas | `/ship` → `code-reviewer` + `security-auditor` + `test-engineer` | GO / NO-GO report with rollback plan |
+
+### What "parallel fan-out" looks like in practice
+
+When `/ship` runs, the main agent issues three subagent calls in a single turn:
+
+```
+Main agent:
+  → [concurrent] code-reviewer:    "Review the staged diff for correctness, readability, architecture, security, performance"
+  → [concurrent] security-auditor: "Run a vulnerability pass against the staged diff"
+  → [concurrent] test-engineer:    "Analyze test coverage for the staged diff"
+
+Main agent waits for all three, then merges into a GO/NO-GO report.
+```
+
+For a full example of what that merged report looks like, see [ship-output-example.md](ship-output-example.md).
+
+### Key insight: skills chain, not stack
+
+A common mistake is thinking you need to load all skills at once. Skills chain — you load the skill for the current phase and move to the next skill when that phase completes. The session-start hook in `using-agent-skills` keeps the discovery flowchart always in context; individual skills load on demand.
