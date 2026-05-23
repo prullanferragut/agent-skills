@@ -28,7 +28,7 @@ const FLUFF_PATTERNS = [
 function scoreResponse(response) {
   const questionCount      = (response.match(/^Q:/gm) || []).length;
   const exactlyOneQuestion = questionCount === 1;
-  const confidencePresent  = /confidence[:\s]+\d+%/i.test(response);
+  const confidencePresent  = /confidence[:\s]+~?\d+%/i.test(response);
   const guessPresent       = /^GUESS:/im.test(response);
   const noFluff            = !FLUFF_PATTERNS.some((re) => re.test(response));
   const total = [exactlyOneQuestion, confidencePresent, guessPresent, noFluff].filter(Boolean).length;

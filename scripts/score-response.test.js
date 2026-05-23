@@ -85,4 +85,15 @@ const fluffy4 = 'I appreciate your question. HYPOTHESIS: X. Confidence: 55%.\nQ:
 const r9 = scoreResponse(fluffy4);
 assert.strictEqual(r9.noFluff, false, 'noFluff: "I appreciate" pattern');
 
+// Approximate confidence with tilde (common LLM output: "Confidence: ~15%")
+const approxConf = [
+  'HYPOTHESIS: You want X. Confidence: ~15%.',
+  'Q: What do you want?',
+  'GUESS: Speed.',
+].join('\n');
+
+const r10 = scoreResponse(approxConf);
+assert.strictEqual(r10.confidencePresent, true, 'confidencePresent: tilde prefix (~15%)');
+assert.strictEqual(r10.total,             4,    'total: tilde confidence');
+
 console.log('All scorer tests passed.');
