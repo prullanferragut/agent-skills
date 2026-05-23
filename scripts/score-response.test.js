@@ -49,7 +49,7 @@ const noConf = [
 
 const r4 = scoreResponse(noConf);
 assert.strictEqual(r4.confidencePresent, false, 'confidencePresent: missing');
-assert.strictEqual(r4.total,             2,    'total: missing conf');
+assert.strictEqual(r4.total,             3,    'total: missing conf');
 
 // Missing GUESS
 const noGuess = [
@@ -59,6 +59,30 @@ const noGuess = [
 
 const r5 = scoreResponse(noGuess);
 assert.strictEqual(r5.guessPresent, false, 'guessPresent: missing');
-assert.strictEqual(r5.total,        2,    'total: missing guess');
+assert.strictEqual(r5.total,        3,    'total: missing guess');
+
+// Zero questions — fails exactlyOneQuestion
+const zeroQ = [
+  'HYPOTHESIS: You want a social network. Confidence: 60%.',
+  'GUESS: Something for communities.',
+  'Here is what I think you need...',
+].join('\n');
+
+const r6 = scoreResponse(zeroQ);
+assert.strictEqual(r6.exactlyOneQuestion, false, 'exactlyOneQuestion: zero Q');
+assert.strictEqual(r6.total,              3,     'total: zero Q');
+
+// Additional fluff patterns
+const fluffy2 = 'Of course! HYPOTHESIS: X. Confidence: 55%.\nQ: What do you want?\nGUESS: Speed.';
+const r7 = scoreResponse(fluffy2);
+assert.strictEqual(r7.noFluff, false, 'noFluff: "of course" pattern');
+
+const fluffy3 = 'Certainly. HYPOTHESIS: X. Confidence: 55%.\nQ: What do you want?\nGUESS: Speed.';
+const r8 = scoreResponse(fluffy3);
+assert.strictEqual(r8.noFluff, false, 'noFluff: "certainly" pattern');
+
+const fluffy4 = 'I appreciate your question. HYPOTHESIS: X. Confidence: 55%.\nQ: What do you want?\nGUESS: Speed.';
+const r9 = scoreResponse(fluffy4);
+assert.strictEqual(r9.noFluff, false, 'noFluff: "I appreciate" pattern');
 
 console.log('All scorer tests passed.');
