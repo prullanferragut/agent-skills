@@ -5,9 +5,19 @@ description: Use at the start of any development task alongside lifecycle skills
 
 # Workflow Tracker
 
+## Overview
+
 Companion skill — activates alongside lifecycle skills to maintain a live `TodoWrite` list mapped to the active workflow phases so the user always sees where they are and what comes next.
 
 Requires the `TodoWrite` tool.
+
+## When to Use
+
+- At the start of any development task that uses a lifecycle skill or slash command
+- When the user needs to track progress across multiple phases (SPEC → PLAN → BUILD → TEST → REVIEW → SIMPLIFY → SHIP)
+- When resuming a task mid-phase and the current position in the workflow needs to be visible
+
+**When NOT to use:** Single-step tasks where there is only one phase to complete and no phase progression is needed.
 
 ## Activation
 
@@ -90,3 +100,32 @@ Phases are not always linear. When a phase must be revisited (e.g., TEST fails a
 ## Completion
 
 The tracker is complete when SHIP is marked `completed`.
+
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "The user can track phases themselves" | Agents lose phase context across tool calls. An explicit `TodoWrite` list is the only reliable signal of current position. |
+| "We're only doing one phase, no need to track" | Single-phase tasks still benefit from a visible exit gate — the tracker shows when the phase is done, not just started. |
+| "I'll update the tracker at the end" | Batching updates means the list is wrong for most of the task. Update in real time as gates are passed. |
+
+## Red Flags
+
+- Initializing phases not relevant to the invoked command (use the table above to scope correctly)
+- Batching `TodoWrite` updates instead of updating each phase as its gate is passed
+- Marking a phase `completed` before its exit gate is actually reached
+- Adding duplicate `TodoWrite` items when a phase regresses — update the existing item instead
+- Forgetting to mark the next phase `in_progress` immediately after marking the current one `completed`
+
+## Verification
+
+After initialization:
+- [ ] `TodoWrite` list created with correct phases for the invoked command
+- [ ] Current phase is marked `in_progress`
+- [ ] Future phases are marked `pending`
+- [ ] Any already-completed phases are marked `completed`
+
+After each phase transition:
+- [ ] Completed phase is marked `completed`
+- [ ] Next phase is marked `in_progress` immediately
+- [ ] No duplicate items in the list
