@@ -268,10 +268,7 @@ This catches wrong directions before you've built on them. It's a 30-second inve
 
 | Rationalization | Reality |
 |---|---|
-| "The agent should figure out the conventions" | It can't read your mind. Write a rules file — 10 minutes that saves hours. |
 | "I'll just correct it when it goes wrong" | Prevention is cheaper than correction. Upfront context prevents drift. |
-| "More context is always better" | Research shows performance degrades with too many instructions. Be selective. |
-| "The context window is huge, I'll use it all" | Context window size ≠ attention budget. Focused context outperforms large context. |
 
 ## Red Flags
 
