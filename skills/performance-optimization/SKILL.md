@@ -285,6 +285,8 @@ app.use('/static', express.static('public', {
   immutable: true,        // Never revalidate (use content hashing in filenames)
 }));
 
+> **In-memory caching (module-level variables) is only safe for single-instance deployments.** In serverless functions, horizontally scaled services, or any multi-process deployment, each instance has its own memory — updates to the cache in one instance are invisible to others, and invalidation is impossible. For multi-instance deployments, use a shared cache (Redis, Memcached, or the hosting platform's cache service) rather than module-level variables.
+
 // Cache-Control for API responses
 res.set('Cache-Control', 'public, max-age=300'); // 5 minutes
 ```
@@ -292,6 +294,8 @@ res.set('Cache-Control', 'public, max-age=300'); // 5 minutes
 ## Performance Budget
 
 Set budgets and enforce them:
+
+> **These numbers are starting-point defaults, not universal targets.** The right budgets depend on your users' network conditions, device capabilities, and what your application does. A data-heavy analytics dashboard has different constraints than a marketing landing page. Treat these as a baseline — measure your actual user population and adjust accordingly.
 
 ```
 JavaScript bundle: < 200KB gzipped (initial load)
