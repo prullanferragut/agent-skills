@@ -118,3 +118,36 @@ This means the three "fidelity failures" are artefacts of which variant happened
 ### Required Fix Before Re-Running
 
 Increase `scripted_turns` from 4 to 8 in each test case YAML. The interview-me skill typically requires 4–6 questions before producing a restate; 4 user turns is not enough runway.
+
+---
+
+## 7. Benchmark v2.1 Results — Extended Turn Count (8 turns, cooperative user)
+
+**Date:** 2026-05-25
+**Change from v2:** Scripted turns extended from 4 to 8 per test case. Cooperative user responses designed to converge toward a restate by turn 6–7. Fresh conversations from scratch (not reusing v2 sessions).
+
+### Summary Table
+
+| Test Case | Category | Zero-Shot | Chaff | Wheat | Delta (Chaff−Wheat) | Fidelity |
+|-----------|----------|-----------|-------|-------|---------------------|----------|
+| tc-01 | clean-trigger | 20 | 20 | 20 | 0 | ✅ PASS |
+| tc-02 | jargon | 19 | 18 | 20 | −2 | ✅ PASS |
+| tc-03 | multi-part | 20 | 20 | 20 | 0 | ✅ PASS |
+| tc-04 | delegation | 20 | 20 | 18 | +2 | ✅ PASS |
+| tc-05 | high-stakes | 4 | 18 | 12 | +6 | ❌ FAIL |
+
+*Equivalence threshold: |delta| ≤ 2. Failure: |delta| ≥ 3.*
+
+### Interpretation
+
+**4 of 5 test cases pass the equivalence threshold.** The fidelity claim is partially supported.
+
+**tc-01 through tc-04:** Chaff and Wheat scored identically or within ±2 on all four cases. Zero-Shot also scored high on 4 of 4, suggesting that with 8 cooperative turns, the model can conduct a reasonable interview regardless of instruction payload.
+
+**tc-05 (auth rewrite — high-stakes):** Wheat scored 12 vs. Chaff's 18, a delta of +6. This is the one case where Wheat's compression caused a meaningful quality drop. The judge noted that Wheat framed the outcome as an "engineering comfort problem" rather than correctly identifying security as the binding constraint. It also inverted the out-of-scope logic — treating audit/patch as out-of-scope for a rewrite, when the ground truth says audit-first is the right approach. Chaff's richer guardrails around "constraint surfacing" and "want vs. should want" probing produced a more accurate restate.
+
+**Zero-Shot failure on tc-05:** The zero-shot model never produced a restate within 8 turns — it kept asking about the authentication mechanism rather than converging. This is the only case where zero-shot failed, and it's the hardest test case (high-stakes, adversarial, requires security judgment).
+
+### Conclusion
+
+Wheat and Chaff are broadly equivalent on clean, cooperative inputs (tc-01 through tc-04). Wheat degrades on high-stakes inputs with embedded constraints that require the deeper reasoning scaffolding in the full skill (tc-05). The auditor's original recommendation — *"Wheat + Negative Constraints"* — is supported: the Wheat payload would benefit from an explicit constraint like "If the user mentions security incidents, surface 'what caused them?' before restating scope."
