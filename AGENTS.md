@@ -35,11 +35,12 @@ OpenCode does not support slash commands like `/spec` or `/plan`.
 
 Instead, the agent must internally follow this lifecycle:
 
-- DEFINE → `spec-driven-development`
+- SPEC → `spec-driven-development`
 - PLAN → `planning-and-task-breakdown`
 - BUILD → `incremental-implementation` + `test-driven-development`
-- VERIFY → `debugging-and-error-recovery`
+- TEST → `debugging-and-error-recovery`, `browser-testing-with-devtools`
 - REVIEW → `code-review-and-quality`
+- SIMPLIFY → `code-simplification`
 - SHIP → `shipping-and-launch`
 
 ### Execution Model
@@ -89,9 +90,9 @@ See [agents/README.md](agents/README.md) for the decision matrix and [references
 skills/
   {skill-name}/           # kebab-case directory name
     SKILL.md              # Required: skill definition
-    scripts/              # Required: executable scripts
+    scripts/              # Optional: only when the skill ships runnable helpers
       {script-name}.sh    # Bash scripts (preferred)
-  {skill-name}.zip        # Required: packaged for distribution
+  {skill-name}.zip        # Optional: for manual distribution outside the plugin manager
 ```
 
 ### Naming Conventions
