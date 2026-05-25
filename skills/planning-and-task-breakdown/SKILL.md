@@ -23,6 +23,8 @@ Decompose work into small, verifiable tasks with explicit acceptance criteria. G
 
 ### Step 1: Enter Plan Mode
 
+> **Gate:** Before planning, confirm that a written spec or confirmed intent statement exists. If neither exists, stop and invoke `spec-driven-development` or `interview-me` first. Do not produce a task list for an unwritten spec — the plan will encode agent assumptions, not requirements.
+
 Before writing any code, operate in read-only mode:
 
 - Read the spec and relevant codebase sections
@@ -96,9 +98,11 @@ Each task follows this structure:
 
 **Dependencies:** [Task numbers this depends on, or "None"]
 
-**Files likely touched:**
+**Files expected to change (estimate — may be incomplete):**
 - `src/path/to/file.ts`
 - `tests/path/to/test.ts`
+
+> This is a planning estimate. During execution, Rule -1 from `incremental-implementation` takes precedence — map the actual dependency graph before touching files.
 
 **Estimated scope:** [Small: 1-2 files | Medium: 3-5 files | Large: 5+ files]
 ```
@@ -193,6 +197,8 @@ When multiple agents or sessions are available:
 - **Must be sequential:** Database migrations, shared state changes, dependency chains
 - **Needs coordination:** Features that share an API contract (define the contract first, then parallelize)
 
+> **Before marking tasks as safe to parallelize, check whether they touch any shared files** — configuration, package manifests, database schema, CI config, or seed data. If they do, either serialize those specific changes or designate one task to own each shared file and make the other tasks depend on it.
+
 ## Common Rationalizations
 
 | Rationalization | Reality |
@@ -221,3 +227,4 @@ Before starting implementation, confirm:
 - [ ] No task touches more than ~5 files
 - [ ] Checkpoints exist between major phases
 - [ ] The human has reviewed and approved the plan
+- [ ] The Risks and Mitigations table contains at least one identified risk, or explicitly states "No risks identified" with a one-sentence rationale
