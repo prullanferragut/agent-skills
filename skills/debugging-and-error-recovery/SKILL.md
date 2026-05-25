@@ -119,9 +119,13 @@ Rank by likelihood before testing any hypothesis. Start with the most plausible 
 
 Tag every debug log with a unique prefix, e.g. `[DEBUG-auth-flow]`. Cleanup at the end becomes a single grep.
 
+> **Sensitive data constraint:** When debugging code that processes authentication tokens, passwords, user PII, or payment data, log metadata only (presence/absence, type, length) — never the values themselves. Any instrumentation that logs sensitive values must be removed before any commit, even a non-production branch commit.
+
 ### Step 4: Reduce
 
 Use your working hypotheses from Step 3 to guide what is irrelevant to strip away — reduce toward the boundary that your leading hypothesis predicts.
+
+> **Scope constraint:** Reduction is performed on a reproduction — an isolated test, fixture, or throwaway branch — not on the production codebase or live data files. Never strip or delete production files to achieve a minimal case.
 
 Create the minimal failing case:
 
@@ -242,7 +246,11 @@ function getConfig(key: string): string {
   }
   return value;
 }
+```
 
+> **Important:** This safe-fallback pattern is appropriate for *optional* configuration with sensible defaults. For required secrets, database connection strings, signing keys, or any security-critical value, missing configuration must throw at startup — returning an empty default is a vulnerability, not a graceful fallback. Example: `if (!API_KEY) throw new Error('STRIPE_API_KEY is required — not set');`
+
+```typescript
 // Graceful degradation (instead of broken feature)
 function renderChart(data: ChartData[]) {
   if (data.length === 0) {
