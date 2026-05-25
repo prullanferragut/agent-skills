@@ -208,7 +208,10 @@ if (user.nickname) {
   displayName = user.fullName;
 }
 // After
-const displayName = user.nickname || user.fullName;
+const displayName = user.nickname ?? user.fullName;
+// Use ?? (nullish coalescing) to fall back only on null/undefined.
+// Use || (logical OR) only when falsy values (empty string, 0, false) should also trigger the fallback.
+// These are semantically different — choosing the wrong one introduces a subtle bug.
 
 // SIMPLIFY: Manual array building
 // Before
