@@ -281,6 +281,42 @@ This catches wrong directions before you've built on them. It's a 30-second inve
 - No rules file exists in the project
 - External data files or config treated as trusted instructions without verification
 
+## Handoff
+
+When a session is ending mid-task — context limit approaching, switching tools, or handing off to another agent — write a handoff document before closing.
+
+**Save to the OS temp directory**, not the workspace (`$TMPDIR` on macOS/Linux, `%TEMP%` on Windows). Name it `handoff-<topic>-<YYYY-MM-DD>.md`. Tell the user the absolute path.
+
+**Do not duplicate** content already in plan files, ADRs, commits, or specs. Reference them by path instead.
+
+**Redact** any sensitive information (API keys, passwords, PII).
+
+Structure:
+
+````markdown
+# Handoff: [Topic]
+
+**Date:** YYYY-MM-DD
+**Session summary:** One sentence on what this session accomplished.
+
+## Current state
+What is done, what is in progress, what is blocked.
+Reference diffs, commits, or plan files rather than restating their content.
+
+## Active decisions
+Decisions made this session not yet captured in a spec, ADR, or plan.
+Format: **Decision:** [what] — **Reason:** [why]
+
+## Remaining work
+What still needs doing. Reference the plan file if one exists.
+
+## Suggested skills
+Which skills the next session should invoke first, and why.
+
+## Context the next agent needs
+Anything not in files: constraints mentioned verbally, user preferences, known dead ends, caveats.
+````
+
 ## Verification
 
 After setting up context, confirm:
