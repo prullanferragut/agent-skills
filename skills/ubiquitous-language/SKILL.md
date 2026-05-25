@@ -148,11 +148,8 @@ When `CONTEXT-MAP.md` exists, infer which bounded context the current topic belo
 | Rationalization | Reality |
 | --------------- | ------- |
 | "Everyone on the team already knows what this means" | Everyone on the team uses different words for it. The next agent session will too. |
-| "I'll update the glossary after the spec is done" | Terminology is hardest to fix after it is embedded in a spec. Fix it now while it is one word. |
 | "This term is obvious, it doesn't need a definition" | Obvious terms are the most frequently contested. Define them anyway. |
-| "We need an ADR for every decision" | No. ADRs are for decisions that are hard to reverse, surprising without context, and the result of a real trade-off. Most decisions fail at least one condition. |
 | "The code is the documentation" | The code shows what was done. `CONTEXT.md` shows what it means in the domain. These are different things. |
-| "CONTEXT.md will get out of date" | CONTEXT.md goes out of date when it is not updated inline. This skill updates it immediately. |
 
 ## Red Flags
 
