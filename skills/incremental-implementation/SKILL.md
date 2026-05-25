@@ -88,6 +88,28 @@ If Slice 1 fails, you discover it before investing in Slices 2 and 3.
 
 ## Implementation Rules
 
+### Rule -1: Map before you touch
+
+If the code area you're about to change is unfamiliar, build a module map before writing a single line:
+
+1. **Identify the entry point** — the function, file, or module where work will happen.
+2. **Map upward (callers)** — who calls this? Who calls them? Go up two levels unless the graph is very shallow.
+3. **Map downward (dependencies)** — what does this depend on? Identify direct dependencies and their interfaces — you don't need their internals, just what they expose.
+4. **Identify seams** — where are the interface boundaries? What could change without affecting callers, and what can't?
+5. **Check domain vocabulary** — if the project has a `CONTEXT.md` or `docs/adr/`, scan it. Use the project's terms, don't invent new names for existing concepts.
+6. **Present the map** before touching any code:
+   ```
+   [Entry point]: <one-line responsibility>
+     ← called by: [caller A], [caller B]
+     → depends on: [dep X] (<one-line interface summary>)
+                   [dep Y] (<one-line interface summary>)
+     seams: [where the interface lives and what varies across it]
+   ```
+
+If the map reveals the change is riskier than expected (many callers, tight coupling, undocumented contracts), surface that before proceeding.
+
+Skip Rule -1 only when you have recent, direct familiarity with the code. "I read it once" is not familiarity. "I modified it last week and remember the structure" is.
+
 ### Rule 0: Simplicity First
 
 Before writing any code, ask: "What is the simplest thing that could work?"
