@@ -35,6 +35,32 @@ SPECIFY ──→ PLAN ──→ TASKS ──→ IMPLEMENT
 
 Start with a high-level vision. Ask the human clarifying questions until requirements are concrete.
 
+**Check the domain model first.** Before writing any spec content, look for:
+
+- `CONTEXT.md` at the repo root — the project glossary. Any term you use in the spec should either be in here or be explicitly new.
+- `docs/adr/` — architectural decisions that constrain the design space. Don't spec something an ADR has already ruled out without surfacing the conflict.
+
+If terminology in the requirements is fuzzy or conflicts with `CONTEXT.md`, run the following grilling loop before writing anything:
+
+1. Interview the user one question at a time about each contested term.
+2. Provide your recommended definition before asking.
+3. When a term is resolved, update `CONTEXT.md` immediately — don't batch.
+4. `CONTEXT.md` is a glossary only: no implementation details, no file paths. Format:
+   ```
+   ### [Term]
+   [One or two sentences. What it is. What it is not.]
+   ```
+5. Offer an ADR only when a decision is hard to reverse, surprising without context, and the result of a real trade-off. Skip it otherwise.
+
+**Consider a prototype before speccing.** If a key design question is uncertain — "does this state model feel right?" or "what should this look like?" — answer it with a throwaway prototype rather than speccing something you'll need to re-spec.
+
+Pick the branch that matches the question:
+
+- **"Does this logic / state model feel right?"** → Build a small interactive terminal app. Implement minimal state transitions in memory, wire a simple REPL or menu loop, print full state after every action. One command to run. No tests, no persistence, no abstractions.
+- **"What should this look like?"** → Generate 3–4 radically different UI variations on a single route, toggled via a `?variant=` URL param and a floating bottom bar. One command to run using the existing dev server.
+
+Rules for both: name it clearly as a prototype, locate it near the code it explores, no polish, delete it when done. Capture the answer in a commit message, ADR, or `NOTES.md` before deleting. Once the question is answered, return here and write the spec against the validated decision.
+
 **Surface assumptions immediately.** Before writing any spec content, list what you're assuming:
 
 ```
