@@ -58,9 +58,11 @@ Once you have a loop, improve it:
 - Can I make the signal sharper? (Assert on the specific symptom, not "didn't crash".)
 - Can I make it more deterministic? (Pin time, seed RNG, isolate filesystem, freeze network.)
 
+When the loop is runnable, produces the correct symptom, and you can re-run it in under 30 seconds, proceed to Step 2. Don't optimise further — a working loop is the goal, not a perfect one.
+
 #### Non-deterministic bugs
 
-The goal is not a clean repro but a higher reproduction rate. Loop 100×, parallelise, add stress, narrow timing windows, inject sleeps. A 50%-flake bug is debuggable; 1% is not — keep raising the rate until it is.
+The goal is not a clean repro but a higher reproduction rate. Loop 100×, parallelise, add stress, narrow timing windows, inject sleeps. Raise the reproduction rate until you can isolate a single run that fails reliably. A bug you can reproduce on demand is debuggable; one you cannot is not — keep raising the rate before proceeding.
 
 #### When you genuinely cannot build a loop
 
@@ -101,9 +103,25 @@ git bisect good <known-good-sha> # This commit worked
 git bisect run npm test -- --grep "failing test"
 ```
 
-### Step 3: Reduce
+### Step 3: Hypothesise
 
-Use your working hypotheses from Step 3b to guide what is irrelevant to strip away — reduce toward the boundary that your leading hypothesis predicts.
+Generate **3–5 ranked hypotheses** before testing any of them. Single-hypothesis generation anchors on the first plausible idea.
+
+Each hypothesis must be falsifiable:
+
+> "If X is the cause, then changing Y will make the bug disappear / changing Z will make it worse."
+
+Rank by likelihood before testing any hypothesis. Start with the most plausible — if it is falsified, move to the next.
+
+**Instrument one variable at a time.** Each probe maps to a specific prediction. Tool preference:
+1. **Debugger / REPL inspection** if the env supports it. One breakpoint beats ten logs.
+2. **Targeted logs** at the boundaries that distinguish hypotheses.
+
+Tag every debug log with a unique prefix, e.g. `[DEBUG-auth-flow]`. Cleanup at the end becomes a single grep.
+
+### Step 4: Reduce
+
+Use your working hypotheses from Step 3 to guide what is irrelevant to strip away — reduce toward the boundary that your leading hypothesis predicts.
 
 Create the minimal failing case:
 
@@ -113,24 +131,7 @@ Create the minimal failing case:
 
 A minimal reproduction makes the root cause obvious and prevents fixing symptoms instead of causes.
 
-### Step 3b: Hypothesise
-
-Generate **3–5 ranked hypotheses** before testing any of them. Single-hypothesis generation anchors on the first plausible idea.
-
-Each hypothesis must be falsifiable:
-
-> "If X is the cause, then changing Y will make the bug disappear / changing Z will make it worse."
-
-Show the ranked list to the user before testing — they often have domain knowledge that re-ranks instantly. Proceed with your ranking if the user is unavailable.
-
-**Instrument one variable at a time.** Each probe maps to a specific prediction. Tool preference:
-1. **Debugger / REPL inspection** if the env supports it. One breakpoint beats ten logs.
-2. **Targeted logs** at the boundaries that distinguish hypotheses.
-3. Never "log everything and grep".
-
-Tag every debug log with a unique prefix, e.g. `[DEBUG-auth-flow]`. Cleanup at the end becomes a single grep.
-
-### Step 4: Fix the Root Cause
+### Step 5: Fix the Root Cause
 
 Fix the underlying issue, not the symptom:
 
@@ -147,7 +148,7 @@ Root cause fix (good):
 
 Ask: "Why does this happen?" until you reach the actual cause, not just where it manifests.
 
-### Step 5: Guard Against Recurrence
+### Step 6: Guard Against Recurrence
 
 Write a test that catches this specific failure:
 
@@ -163,11 +164,11 @@ it('finds tasks with special characters in title', async () => {
 
 This test will prevent the same bug from recurring. It should fail without the fix and pass with it.
 
-**Post-mortem:** After the fix is in, ask: what would have prevented this bug? If the answer involves architectural change — no good test seam existed, modules were too tightly coupled — note it for an architecture review. The `code-review-and-quality` Architecture axis covers how to assess this.
+**Post-mortem:** After the fix is in, ask: what would have prevented this bug? If the answer involves architectural change — no good test seam existed, modules were too tightly coupled — record it as a comment in the commit message or open a follow-up task. The `code-review-and-quality` skill's Architecture axis covers how to surface and structure the candidate.
 
-Remove all `[DEBUG-...]` instrumentation before closing (grep the prefix) (see Step 3b for the tagging convention).
+Remove all `[DEBUG-...]` instrumentation before closing (grep the prefix) (see Step 3 for the tagging convention).
 
-### Step 6: Verify End-to-End
+### Step 7: Verify End-to-End
 
 After fixing, verify the complete scenario:
 
@@ -264,6 +265,8 @@ Add logging only when it helps. Remove it when done.
 - You can't localize the failure to a specific line
 - The issue is intermittent and needs monitoring
 - The fix involves multiple interacting components
+
+When debugging a specific issue, prefix all debug logs with a unique tag (e.g. `[DEBUG-auth-flow]`) so they can be removed with a single grep when done. Never "log everything and grep" — instrument one variable at a time at boundaries that distinguish hypotheses.
 
 **When to remove it:**
 - The bug is fixed and tests guard against recurrence
