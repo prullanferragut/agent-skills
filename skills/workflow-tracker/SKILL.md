@@ -118,8 +118,6 @@ The tracker is complete when SHIP is marked `completed`.
 | Rationalization | Reality |
 |---|---|
 | "The user can track phases themselves" | Agents lose phase context across tool calls. An explicit `TodoWrite` list is the only reliable signal of current position. |
-| "We're only doing one phase, no need to track" | Single-phase tasks still benefit from a visible exit gate — the tracker shows when the phase is done, not just started. |
-| "I'll update the tracker at the end" | Batching updates means the list is wrong for most of the task. Update in real time as gates are passed. |
 
 ## Red Flags
 
