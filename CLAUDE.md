@@ -15,12 +15,14 @@ docs/         → Setup guides for different tools
 
 ## Skills by Phase
 
-**Define:** interview-me, idea-refine, spec-driven-development
-**Plan:** planning-and-task-breakdown
-**Build:** incremental-implementation, test-driven-development, context-engineering, source-driven-development, doubt-driven-development, frontend-ui-engineering, api-and-interface-design
-**Verify:** browser-testing-with-devtools, debugging-and-error-recovery
-**Review:** code-review-and-quality, code-simplification, security-and-hardening, performance-optimization
-**Ship:** git-workflow-and-versioning, ci-cd-and-automation, deprecation-and-migration, documentation-and-adrs, shipping-and-launch
+**SPEC:** interview-me, idea-refine, spec-driven-development, ubiquitous-language
+**PLAN:** planning-and-task-breakdown
+**BUILD:** incremental-implementation, test-driven-development, context-engineering, source-driven-development, doubt-driven-development, frontend-ui-engineering, api-and-interface-design
+**TEST:** test-driven-development, browser-testing-with-devtools, debugging-and-error-recovery
+**REVIEW:** code-review-and-quality, security-and-hardening, performance-optimization
+**SIMPLIFY:** code-simplification
+**SHIP:** git-workflow-and-versioning, ci-cd-and-automation, deprecation-and-migration, documentation-and-adrs, shipping-and-launch
+**Meta:** workflow-tracker, using-agent-skills
 
 ## Conventions
 
@@ -33,8 +35,8 @@ docs/         → Setup guides for different tools
 
 ## Commands
 
-- `npm test` — Not applicable (this is a documentation project)
-- Validate: Check that all SKILL.md files have valid YAML frontmatter with name and description
+- `npm test` — `node scripts/validate-skills.js && node scripts/score-response.test.js && bash hooks/session-start-test.sh`
+- Validate: `node scripts/validate-skills.js` — checks YAML frontmatter (name, description), name matches directory, description ≤ 1024 chars, required sections present (Overview, When to Use, Common Rationalizations, Red Flags, Verification), and cross-skill references point to known skills
 
 ## Boundaries
 
