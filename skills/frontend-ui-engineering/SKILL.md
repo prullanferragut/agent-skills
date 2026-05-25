@@ -224,6 +224,11 @@ function Dialog({ isOpen, onClose }: DialogProps) {
 }
 ```
 
+> **Focus placement matters for safety and usability:**
+> - **Destructive action dialogs** (delete, remove, cancel subscription): focus the **Cancel** button by default, not the destructive action. A user who opened the dialog accidentally should not be one Enter key away from the destructive action.
+> - **Form dialogs** (create, edit): focus the **first form input**, not the close button. The user opened the dialog to fill in the form.
+> - **Alert/info dialogs** (no user action required): focus the **close/dismiss button**.
+
 ### Meaningful Empty and Error States
 
 ```tsx
