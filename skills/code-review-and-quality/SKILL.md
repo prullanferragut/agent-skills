@@ -214,7 +214,7 @@ Model A addresses the feedback
 Human makes the final call
 ```
 
-This catches issues that a single model might miss — different models have different blind spots.
+This catches issues that a single model might miss — different models have different blind spots. **Note:** Models from the same provider or training family share correlated blind spots, weakening the independence of the review. For highest-confidence review of security-critical or irreversible changes, use models from different providers (e.g., one Anthropic, one OpenAI, one Google).
 
 **Example prompt for a review agent:**
 ```
@@ -269,7 +269,7 @@ When reviewing code — whether written by you, another agent, or a human:
 - **Don't soften real issues.** "This might be a minor concern" when it's a bug that will hit production is dishonest.
 - **Quantify problems when possible.** "This N+1 query will add ~50ms per item in the list" is better than "this could be slow."
 - **Push back on approaches with clear problems.** Sycophancy is a failure mode in reviews. If the implementation has issues, say so directly and propose alternatives.
-- **Accept override gracefully.** If the author has full context and disagrees, defer to their judgment. Comment on code, not people — reframe personal critiques to focus on the code itself.
+- **Accept override gracefully.** If the author has full context and disagrees, defer to their judgment — **except for Critical security findings.** A Critical security finding (injection vulnerability, auth bypass, credential exposure, data loss) cannot be closed by author override. It must be resolved or escalated to a human decision-maker before merge. Comment on code, not people — reframe personal critiques to focus on the code itself.
 
 ## Dependency Discipline
 
