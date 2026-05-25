@@ -6,3 +6,10 @@ node_modules/
 .claude/.simplify-ignore-cache/
 .claude/sdd-cache/
 .worktrees/
+
+# Ephemeral agent-generated planning artifacts
+.superpowers/
+docs/superpowers/
+docs/plans/
+docs/specs/
+docs/tasks/
