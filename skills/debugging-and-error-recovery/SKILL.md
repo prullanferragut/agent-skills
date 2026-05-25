@@ -37,51 +37,44 @@ When anything unexpected happens:
 
 Work through these steps in order. Do not skip steps.
 
-### Step 1: Reproduce
+### Step 1: Reproduce — Build a feedback loop first
 
-Make the failure happen reliably. If you can't reproduce it, you can't fix it with confidence.
+**The feedback loop is the skill.** Before hypothesising or instrumenting anything, build a fast, deterministic, agent-runnable pass/fail signal. Everything else (bisection, hypothesis-testing, instrumentation) consumes that signal. Without it, no amount of code-reading will reliably find the cause.
+
+#### Ways to construct a loop — try in roughly this order
+
+1. **Failing test** at whatever seam reaches the bug — unit, integration, e2e.
+2. **Curl / HTTP script** against a running dev server.
+3. **CLI invocation** with a fixture input, diffing stdout against a known-good snapshot.
+4. **Headless browser script** (Playwright/Puppeteer) — drives the UI, asserts on DOM/console/network.
+5. **Replay a captured trace.** Save a real network request/payload/event log to disk; replay it through the code path in isolation.
+6. **Throwaway harness.** Spin up a minimal subset of the system (one service, mocked deps) that exercises the bug code path with a single function call.
+7. **Property / fuzz loop.** If the bug is "sometimes wrong output", run 1000 random inputs and look for the failure mode.
+8. **Bisection harness.** If the bug appeared between two known states (commit, dataset, version), automate "boot at state X, check, repeat" so you can `git bisect run` it.
+9. **Differential loop.** Run the same input through old-version vs new-version (or two configs) and diff outputs.
+
+Once you have a loop, improve it:
+- Can I make it faster? (Cache setup, skip unrelated init, narrow scope.)
+- Can I make the signal sharper? (Assert on the specific symptom, not "didn't crash".)
+- Can I make it more deterministic? (Pin time, seed RNG, isolate filesystem, freeze network.)
+
+#### Non-deterministic bugs
+
+The goal is not a clean repro but a higher reproduction rate. Loop 100×, parallelise, add stress, narrow timing windows, inject sleeps. A 50%-flake bug is debuggable; 1% is not — keep raising the rate until it is.
+
+#### When you genuinely cannot build a loop
+
+Stop and say so explicitly. List what you tried. Ask the user for: (a) access to whatever environment reproduces it, (b) a captured artifact (HAR file, log dump, core dump), or (c) permission to add temporary production instrumentation. Do **not** proceed to Step 2 without a loop.
 
 ```
-Can you reproduce the failure?
+Can you reproduce the failure with a reliable loop?
 ├── YES → Proceed to Step 2
 └── NO
-    ├── Gather more context (logs, environment details)
-    ├── Try reproducing in a minimal environment
-    └── If truly non-reproducible, document conditions and monitor
-```
-
-**When a bug is non-reproducible:**
-
-```
-Cannot reproduce on demand:
-├── Timing-dependent?
-│   ├── Add timestamps to logs around the suspected area
-│   ├── Try with artificial delays (setTimeout, sleep) to widen race windows
-│   └── Run under load or concurrency to increase collision probability
-├── Environment-dependent?
-│   ├── Compare Node/browser versions, OS, environment variables
-│   ├── Check for differences in data (empty vs populated database)
-│   └── Try reproducing in CI where the environment is clean
-├── State-dependent?
-│   ├── Check for leaked state between tests or requests
-│   ├── Look for global variables, singletons, or shared caches
-│   └── Run the failing scenario in isolation vs after other operations
-└── Truly random?
-    ├── Add defensive logging at the suspected location
-    ├── Set up an alert for the specific error signature
-    └── Document the conditions observed and revisit when it recurs
-```
-
-For test failures:
-```bash
-# Run the specific failing test
-npm test -- --grep "test name"
-
-# Run with verbose output
-npm test -- --verbose
-
-# Run in isolation (rules out test pollution)
-npm test -- --testPathPattern="specific-file" --runInBand
+    ├── Work through the loop-construction list above
+    ├── For timing-dependent bugs: add stress, parallelise, inject sleeps
+    ├── For environment-dependent bugs: compare versions, env vars, data state
+    ├── For state-dependent bugs: check leaked state, globals, shared caches
+    └── If truly impossible: document conditions, add defensive logging, revisit when it recurs
 ```
 
 ### Step 2: Localize
@@ -118,6 +111,23 @@ Create the minimal failing case:
 
 A minimal reproduction makes the root cause obvious and prevents fixing symptoms instead of causes.
 
+### Step 3b: Hypothesise
+
+Generate **3–5 ranked hypotheses** before testing any of them. Single-hypothesis generation anchors on the first plausible idea.
+
+Each hypothesis must be falsifiable:
+
+> "If X is the cause, then changing Y will make the bug disappear / changing Z will make it worse."
+
+Show the ranked list to the user before testing — they often have domain knowledge that re-ranks instantly. Proceed with your ranking if the user is unavailable.
+
+**Instrument one variable at a time.** Each probe maps to a specific prediction. Tool preference:
+1. **Debugger / REPL inspection** if the env supports it. One breakpoint beats ten logs.
+2. **Targeted logs** at the boundaries that distinguish hypotheses.
+3. Never "log everything and grep".
+
+Tag every debug log with a unique prefix, e.g. `[DEBUG-a4f2]`. Cleanup at the end becomes a single grep.
+
 ### Step 4: Fix the Root Cause
 
 Fix the underlying issue, not the symptom:
@@ -150,6 +160,10 @@ it('finds tasks with special characters in title', async () => {
 ```
 
 This test will prevent the same bug from recurring. It should fail without the fix and pass with it.
+
+**Post-mortem:** After the fix is in, ask: what would have prevented this bug? If the answer involves architectural change — no good test seam existed, modules were too tightly coupled — note it for an architecture review. The `code-review-and-quality` Architecture axis covers how to assess this.
+
+Remove all `[DEBUG-...]` instrumentation before closing (grep the prefix).
 
 ### Step 6: Verify End-to-End
 
