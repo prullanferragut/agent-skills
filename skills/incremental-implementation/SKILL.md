@@ -112,6 +112,8 @@ If you cannot immediately name the direct callers and dependencies of the entry 
 
 If the map reveals the change is riskier than expected (many callers, tight coupling, undocumented contracts), stop and tell the user what you found. Do not proceed until they confirm the approach or revise the task scope.
 
+**Irreversible operations require explicit user confirmation regardless of caller count.** Treat these as always needing sign-off before proceeding: database schema changes, data migrations, deleting stored data, and any operation that cannot be undone with a `git revert`.
+
 **Cap the map at two caller levels and two dependency levels.** If either graph exceeds five nodes at any level, note 'call graph is wide — showing first five' and stop expanding. A map that takes longer to produce than the change itself has missed the point.
 
 Skip Rule -1 only when ALL of the following are true:
@@ -180,7 +182,7 @@ After each increment, the project must build and existing tests must pass. Don't
 
 ### Rule 3: Feature Flags for Incomplete Features
 
-If a feature isn't ready for users but you need to merge increments:
+If a feature introduces any user-visible behavior that is not yet complete, a feature flag is **required**, not optional. Do not merge an incomplete user-visible surface without one.
 
 ```typescript
 // Feature flag for work-in-progress
@@ -234,6 +236,8 @@ Be explicit about what's in scope and what's NOT in scope for each increment.
 
 After each increment, verify:
 
+> **Substitute your project's actual commands.** The commands below are Node/TypeScript defaults. Before running any verification, identify the project's test runner and build tool from the package manifest, Makefile, or CI config and substitute accordingly.
+
 - [ ] The change does one thing and does it completely
 - [ ] All existing tests still pass (`npm test`)
 - [ ] The build succeeds (`npm run build`)
@@ -241,6 +245,7 @@ After each increment, verify:
 - [ ] Linting passes (`npm run lint`)
 - [ ] The new functionality works as expected
 - [ ] The change is committed with a descriptive message
+- [ ] If this increment includes a database migration, a rollback migration exists and has been verified
 
 **Note:** Run each verification command after a change that could affect it. After a successful run, don't repeat the same command unless the code has changed since — re-running on unchanged code adds no information.
 
