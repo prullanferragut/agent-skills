@@ -48,13 +48,37 @@ Can another engineer (or agent) understand this code without the author explaini
 
 ### 3. Architecture
 
-Does the change fit the system's design?
+Does the change fit the system's design, and does it move the codebase toward **deeper modules**?
 
-- Does it follow existing patterns or introduce a new one? If new, is it justified?
-- Does it maintain clean module boundaries?
-- Is there code duplication that should be shared?
+**Vocabulary** (use these terms exactly — don't substitute "service", "component", or "boundary"):
+
+- **Module** — anything with an interface and an implementation (function, class, package, slice).
+- **Interface** — everything a caller must know: types, invariants, error modes, ordering, config. Not just the type signature.
+- **Depth** — leverage at the interface: a large amount of behaviour behind a small interface. **Deep** = high leverage. **Shallow** = interface nearly as complex as the implementation.
+- **Seam** — where an interface lives; a place behaviour can be altered without editing in place.
+- **Deletion test** — imagine deleting the module. If complexity vanishes, it was a pass-through. If complexity reappears across N callers, it was earning its keep.
+
+**Questions to ask:**
+
+- Does it follow existing patterns, or introduce a new one? If new, is it justified?
+- Are new modules **deep** — a large amount of behaviour behind a small interface — or **shallow**?
+- Does it maintain clean **seams** — places where behaviour can be altered without editing in place?
+- Apply the **deletion test** to any new module added by this change.
+- Is there code duplication that should be pulled behind a shared interface?
 - Are dependencies flowing in the right direction (no circular dependencies)?
-- Is the abstraction level appropriate (not over-engineered, not too coupled)?
+- Is the abstraction level appropriate — not over-engineered, not too coupled?
+
+**If significant architectural friction is found:** surface deepening opportunities using this structure:
+
+- **Files** — which files/modules are involved
+- **Problem** — why the current structure causes friction (use the vocabulary above)
+- **Solution** — plain English description of what would change
+- **Benefits** — in terms of locality (change concentrated in one place) and leverage (more capability per unit of interface)
+- **Recommendation strength** — `Strong`, `Worth exploring`, or `Speculative`
+
+If a candidate contradicts an existing ADR, mark it: "contradicts ADR-XXXX — but worth reopening because…". Only surface it when friction is real enough to justify revisiting.
+
+Do **not** propose a new interface inline during a review. Flag the candidate and let it become a dedicated task.
 
 ### 4. Security
 
