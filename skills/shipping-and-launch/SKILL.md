@@ -50,8 +50,10 @@ Ship with confidence. The goal is not just to deploy — it's to deploy safely, 
 
 ### Accessibility
 
-- [ ] Keyboard navigation works for all interactive elements
-- [ ] Screen reader can convey page content and structure
+> Items marked **(human required)** cannot be verified by an agent — they require a human tester or external tooling (axe-core, browser accessibility audit) to sign off before launch.
+
+- [ ] Keyboard navigation works for all interactive elements **(human required)**
+- [ ] Screen reader can convey page content and structure **(human required)**
 - [ ] Color contrast meets WCAG 2.1 AA (4.5:1 for text)
 - [ ] Focus management correct for modals and dynamic content
 - [ ] Error messages are descriptive and associated with form fields
@@ -103,7 +105,7 @@ return null;
 
 **Rules:**
 - Every feature flag has an owner and an expiration date
-- Clean up flags within 2 weeks of full rollout
+- Clean up flags within 2 weeks of full rollout — only after confirming via telemetry or rollout metrics that the old code path has zero active users. Do not remove a flag or the code it guards based on calendar time alone.
 - Don't nest feature flags (creates exponential combinations)
 - Test both flag states (on and off) in CI
 
@@ -240,6 +242,8 @@ In the first hour after launch:
 Every deployment needs a rollback plan before it happens:
 
 ```markdown
+**Before writing this plan, classify each migration as reversible or irreversible.** An irreversible migration must have an explicit data restore procedure documented — not just a code revert step.
+
 ## Rollback Plan for [Feature/Release]
 
 ### Trigger Conditions
@@ -255,7 +259,9 @@ Every deployment needs a rollback plan before it happens:
 3. Communicate: notify team of rollback
 
 ### Database Considerations
-- Migration [X] has a rollback: `npx prisma migrate rollback`
+- Migration [X]: **reversible** — rollback: `npx prisma migrate rollback`
+  OR
+- Migration [X]: **IRREVERSIBLE** — e.g. column drop, destructive rename, data backfill. Rollback requires data restore from backup. Document the restore procedure here before deploying.
 - Data inserted by new feature: [preserved / cleaned up]
 
 ### Time to Rollback
