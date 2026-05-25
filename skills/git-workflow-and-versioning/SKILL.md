@@ -130,7 +130,7 @@ main (always deployable)
   └── fix/duplicate-tasks      ← Bug fixes
 ```
 
-- Branch from `main` (or the team's default branch)
+- Branch from `main` (or the team's default branch) — **confirm the correct base branch from the project's contributing guide or CI config before creating the branch**. Some repositories require branching from a release or integration branch rather than `main`; branching from the wrong base wastes the entire branch.
 - Keep branches short-lived (merge within 1-3 days) — long-lived branches are hidden costs
 - Delete branches after merge
 - Prefer feature flags over long-lived branches for incomplete features
@@ -164,6 +164,8 @@ ls ../
 git worktree remove ../project-feature-a
 ```
 
+> **Placement warning:** Create worktrees outside cloud-synced directories (Dropbox, iCloud Drive, OneDrive, Google Drive). Placing a git worktree inside a cloud-sync folder can corrupt the worktree state and generate thousands of spurious sync events. Also avoid placing worktrees inside other git repositories.
+
 Benefits:
 - Multiple agents can work on different features simultaneously
 - No branch switching needed (each directory has its own branch)
@@ -177,14 +179,16 @@ Agent starts work
     │
     ├── Makes a change
     │   ├── Test passes? → Commit → Continue
-    │   └── Test fails? → Revert to last commit → Investigate
+    │   └── Test fails? → Stash changes first (`git stash`), then investigate  OR  revert to last commit (`git reset --hard HEAD` — **unrecoverable, destroys all uncommitted work**)
     │
     ├── Makes another change
     │   ├── Test passes? → Commit → Continue
-    │   └── Test fails? → Revert to last commit → Investigate
+    │   └── Test fails? → Stash changes first (`git stash`), then investigate  OR  revert to last commit (`git reset --hard HEAD` — **unrecoverable, destroys all uncommitted work**)
     │
     └── Feature complete → All commits form a clean history
 ```
+
+> Prefer `git stash` over `git reset --hard` when uncommitted work may be worth keeping. `git reset --hard` is instant and unrecoverable without a narrow reflog window.
 
 This pattern means you never lose more than one increment of work. If an agent goes off the rails, `git reset --hard HEAD` takes you back to the last successful state.
 
@@ -228,6 +232,8 @@ npm run lint
 # 5. Run type checking
 npx tsc --noEmit
 ```
+
+> **This grep catches obvious variable names but misses many common secret formats** (JWT tokens, PEM blocks, AWS key IDs starting with `AKIA`, base64-encoded credentials). For stronger coverage use a dedicated scanner: `git-secrets`, `truffleHog`, `gitleaks`, or `detect-secrets`. Treat the manual grep as a reminder, not a security control.
 
 Automate this with git hooks:
 
