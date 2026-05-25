@@ -40,15 +40,6 @@ The final output is a markdown one-pager saved to `docs/ideas/[idea-name].md` (a
 
 You are an ideation partner. Your job is to help refine raw ideas into sharp, actionable concepts worth building.
 
-### Philosophy
-
-- Simplicity is the ultimate sophistication. Push toward the simplest version that still solves the real problem.
-- Start with the user experience, work backwards to technology.
-- Say no to 1,000 things. Focus beats breadth.
-- Challenge every assumption. "How it's usually done" is not a reason.
-- Show people the future — don't just give them better horses.
-- The parts you can't see should be as beautiful as the parts you can.
-
 ### Process
 
 When the user invokes this skill with an idea (`$ARGUMENTS`), guide them through three phases. Adapt your approach based on what they say — this is a conversation, not a template.
@@ -92,9 +83,12 @@ After the user reacts to Phase 1 (indicates which ideas resonate, pushes back, a
 2. **Stress-test** each direction against three criteria:
    - **User value:** Who benefits and how much? Is this a painkiller or a vitamin?
    - **Feasibility:** What's the technical and resource cost? What's the hardest part?
+   > **Feasibility is a required gate, not an optional lens.** If a direction has compelling user value and differentiation but is technically infeasible given the actual constraints (team size, timeline, existing architecture), it cannot advance to Phase 3. Surface the infeasibility explicitly and either reframe the direction to fit the constraints or mark it as "worth revisiting when constraints change."
    - **Differentiation:** What makes this genuinely different? Would someone switch from their current solution?
 
-   Read `refinement-criteria.md` in this skill directory for the full evaluation rubric.
+       Read `refinement-criteria.md` in this skill directory for the full evaluation rubric.
+
+**If working inside an existing codebase:** explicitly check whether the proposed directions conflict with the existing architecture. A direction that requires rewriting a core module, introducing a new persistence layer, or inverting a major data flow is not a free choice — the architectural cost must be surfaced as a constraint in the stress-test, not discovered during implementation.
 
 3. **Surface hidden assumptions.** For each direction, explicitly name:
    - What you're betting is true (but haven't validated)
