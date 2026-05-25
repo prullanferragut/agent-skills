@@ -181,6 +181,8 @@ Fix the issue and verify locally before pushing again."
 Agent fixes → pushes → CI runs again
 ```
 
+> **Local verification has limits.** If the CI failure involves environment-specific behavior — a Node.js version difference, OS-level path handling, a missing secret, or a service only available in CI — fixing locally and pushing again will fail again. When the local environment diverges from CI, fix the CI environment variable or configuration rather than adapting the code to local conditions.
+
 **Key patterns:**
 
 ```
@@ -304,7 +306,7 @@ Designate someone responsible for keeping CI green. When the build breaks, the B
 - **Required reviews:** At least 1 approval before merge
 - **Required status checks:** CI must pass before merge
 - **Branch protection:** No force-pushes to main
-- **Auto-merge:** If all checks pass and approved, merge automatically
+- **Auto-merge:** If all checks pass and approved, merge automatically — **except** for PRs containing database migrations, secret rotation, coordinated multi-service deployments, or any change where timing of the merge matters. Auto-merge for these PRs bypasses the human timing judgment that makes them safe. Require manual merge trigger for all irreversible or time-sensitive operations.
 
 ## CI Optimization
 
