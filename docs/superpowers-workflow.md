@@ -69,8 +69,7 @@ You are the gate between each phase. The agent cannot proceed to PLAN until you 
 | Skill | Source | Purpose |
 | ----- | ------ | ------- |
 | `writing-plans` | superpowers | Produces a task-by-task plan with exact file paths, complete code, exact commands. No TBD placeholders allowed. Saves to `docs/superpowers/plans/YYYY-MM-DD-<feature>.md` |
-| `vertical-slicing` | agent-skills | Determines slice boundaries before `planning-and-task-breakdown` — each slice is a thin end-to-end cut, independently demoable |
-| `planning-and-task-breakdown` | agent-skills | Decomposes into verifiable tasks with acceptance criteria, dependency ordering, and checkpoints |
+| `planning-and-task-breakdown` | agent-skills | Identifies behaviors, slices vertically (tracer bullet first, HITL/AFK types), orders by risk and dependency, decomposes into verifiable tasks with acceptance criteria and checkpoints |
 
 **Your job:** Review the plan. Check that tasks are small (S or M — no XL), slices are vertical not horizontal, and there are no TBD placeholders.
 
@@ -154,7 +153,7 @@ You are the gate between each phase. The agent cannot proceed to PLAN until you 
 | ------------------- | ---------------- | ------ |
 | "I need to build X" | `brainstorming` | superpowers |
 | "What does [term] mean in this codebase?" | `ubiquitous-language` | agent-skills |
-| "Break this into tasks" | `vertical-slicing` → `planning-and-task-breakdown` | agent-skills |
+| "Break this into tasks" | `planning-and-task-breakdown` | agent-skills |
 | "Implement task N from the plan" | `subagent-driven-development` | superpowers |
 | "Something is broken" | `systematic-debugging` | superpowers |
 | "Is this done?" | `verification-before-completion` | superpowers |
