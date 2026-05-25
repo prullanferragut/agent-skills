@@ -82,8 +82,9 @@ export function TaskListContainer() {
   const { tasks, isLoading, error } = useTasks();
 
   if (isLoading) return <TaskListSkeleton />;
-  if (error) return <ErrorState message="Failed to load tasks" retry={refetch} />;
+    if (error) return <ErrorState message="Failed to load tasks" retry={refetch} />;
   if (tasks.length === 0) return <EmptyState message="No tasks yet" />;
+
 
   return <TaskList tasks={tasks} />;
 }
@@ -97,6 +98,8 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
   );
 }
 ```
+
+> **Never display raw API error messages in the UI.** Use a generic user-facing string. Raw API errors may contain stack traces, internal service names, database error codes, or file paths. Pass detailed error information to `console.error` or an error monitoring service — not to rendered UI.
 
 ## State Management
 
@@ -161,6 +164,8 @@ Don't skip heading levels. Don't use heading styles for non-heading content.
 - Use semantic color tokens: `text-primary`, `bg-surface`, `border-default` — not raw hex values
 - Ensure sufficient contrast (4.5:1 for normal text, 3:1 for large text)
 - Don't rely solely on color to convey information (use icons, text, or patterns too)
+
+> **Dark mode:** If the project supports dark mode, all color usage must be through semantic tokens or Tailwind's `dark:` variant. Never use hardcoded color classes (e.g., `text-gray-900`, `bg-white`) that resolve to a single value — they will be invisible or unreadable in dark mode. Verify dark mode rendering before marking a component complete.
 
 ## Accessibility (WCAG 2.1 AA)
 
@@ -286,11 +291,16 @@ function useToggleTask() {
       return { previous };
     },
     onError: (_err, _taskId, context) => {
-      queryClient.setQueryData(['tasks'], context?.previous);
+      // context may be undefined if onMutate itself threw — verify before using
+      if (context?.previous !== undefined) {
+        queryClient.setQueryData(['tasks'], context.previous);
+      }
     },
   });
 }
 ```
+
+> **Do not use optimistic updates for irreversible operations** — payments, account deletion, data export, or any action that cannot be undone. For those, the UI must show a pending state and wait for server confirmation before displaying success. A failed rollback on an irreversible action has no recovery path.
 
 ## See Also
 
