@@ -213,6 +213,8 @@ Use screenshots for visual regression testing:
 5. Compare: does the change look correct?
 ```
 
+> Before taking screenshots of pages that may display user data, verify the page is using test/mock data only. Screenshots are often shared in PRs, reports, or documentation. Do not capture screenshots containing real user PII, real email addresses, real financial data, or any production user content. See the JavaScript Execution Constraints section for the credential access prohibition.
+
 This is especially valuable for:
 - CSS changes (layout, spacing, colors)
 - Responsive design at different viewport sizes
@@ -242,6 +244,8 @@ LOG level:
 ### Clean Console Standard
 
 A production-quality page should have **zero** console errors and warnings. If the console isn't clean, fix the warnings before shipping.
+
+> **CSP and mixed-content warnings must never be silenced or suppressed** to achieve a clean console. These warnings indicate active security policy violations (Content Security Policy) or insecure resource loading (HTTP resources on HTTPS pages). Fix the underlying violation — do not loosen the CSP header or suppress the warning.
 
 ## Accessibility Verification with DevTools
 
