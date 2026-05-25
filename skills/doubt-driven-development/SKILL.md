@@ -44,7 +44,11 @@ If you doubt every keystroke, you ship nothing. The skill applies only to non-tr
 This skill is designed for the **main-session orchestrator**, where Step 3 (DOUBT, detailed below) can spawn a fresh-context reviewer.
 
 - **Do NOT add this skill to a persona's `skills:` frontmatter.** A persona that follows Step 3 would spawn another persona — the orchestration anti-pattern explicitly forbidden by `references/orchestration-patterns.md` ("personas do not invoke other personas").
-- **If you find yourself applying this skill from inside a subagent context** (where Claude Code prevents nested subagent spawn): the preferred path is to surface to the user that doubt-driven cannot run nested and let the main session handle it. As a last resort only, a degraded self-questioning fallback exists — rewrite ARTIFACT + CONTRACT as a fresh self-prompt with a hard mental separator from your prior reasoning, and walk Steps 1–5. This is **not fresh-context review** (you carry your own context with you), so flag the result as degraded and prefer escalation whenever the user is reachable.
+- **If you find yourself applying this skill from inside a subagent context** (where Claude Code prevents nested subagent spawn): the preferred path is to surface to the user that doubt-driven cannot run nested and let the main session handle it. As a last resort only, a degraded self-questioning fallback exists — rewrite ARTIFACT + CONTRACT as a fresh self-prompt with a hard mental separator from your prior reasoning, and walk Steps 1–5. This is **not fresh-context review** (you carry your own context with you), so flag the result as degraded by opening the output with this exact banner before any finding, and prefer escalation whenever the user is reachable:
+
+```
+> ⚠️ DEGRADED REVIEW: Self-review, not fresh-context. Cross-context contamination possible. Treat findings as preliminary — escalate to a fresh-context reviewer before shipping.
+```
 
 ## The Process
 
@@ -79,6 +83,8 @@ A fresh-context reviewer needs the **artifact** and the **contract**, not the jo
 - Code: the diff or the function — not the whole file
 - Decision: the proposal in 3–5 sentences plus the constraints it has to satisfy
 - Assertion: the claim plus the evidence that supposedly supports it (kept distinct from the Step 1 CLAIM block, which is the orchestrator's hypothesis under scrutiny)
+
+> **Before sending to any external CLI or model:** verify the artifact contains no secrets, credentials, PII, or code under confidentiality agreements. If it does, redact or replace with placeholders before passing externally — note in the contract what was redacted.
 
 Strip your reasoning. If you hand over conclusions, you'll get back validation of your conclusions. The unit must be small enough that a reviewer can hold it in mind in one read — if it's a 500-line PR, decompose first.
 
@@ -151,6 +157,8 @@ codex exec --sandbox read-only -C <repo-path> - < /tmp/doubt-prompt.md
 gemini --approval-mode plan -p "" < /tmp/doubt-prompt.md
 ```
 
+> **Temp file security:** Create the file with restricted permissions (`chmod 600 /tmp/doubt-prompt.md`) and clean it up after the CLI invocation completes, whether it succeeds or fails. If the artifact contains secrets, PII, or code under a confidentiality agreement, warn the user before writing it to disk.
+
 A read-only sandbox is the load-bearing detail: a doubt artifact may itself contain instructions (intentional or accidental prompt injection) that the cross-model CLI would otherwise execute against your workspace.
 
 **Step 3: If the CLI is unavailable or fails**
@@ -178,6 +186,8 @@ For each finding, classify in this **precedence order** (first matching class wi
 2. **Valid + actionable** — real issue requiring a change to the artifact. Change it, re-loop.
 3. **Valid trade-off** — issue is real but cost of fixing exceeds cost of accepting. Document the trade-off explicitly so the user sees it.
 4. **Noise** — reviewer flagged something that's actually correct under context the reviewer didn't have. Note it, move on, and ask: would adding that context to the contract have prevented the false flag?
+
+5. **Security-critical** — the finding is a confirmed security vulnerability (injection, auth bypass, data exposure, etc.). These cannot be classified as trade-offs. Escalate to the user with a blocking recommendation before the artifact ships. If the finding is plausible but unconfirmed, classify as Valid + actionable and fix before continuing.
 
 A fresh reviewer can be wrong because it lacks context. Don't defer just because it's "fresh."
 
