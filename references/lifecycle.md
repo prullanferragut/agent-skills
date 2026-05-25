@@ -46,4 +46,4 @@ Each phase is primarily served by one or more skills:
 | TEST | `test-driven-development`, `browser-testing-with-devtools`, `debugging-and-error-recovery` |
 | REVIEW | `code-review-and-quality`, `security-and-hardening`, `performance-optimization` |
 | SIMPLIFY | `code-simplification` |
-| SHIP | `git-workflow-and-versioning`, `ci-cd-and-automation`, `documentation-and-adrs`, `shipping-and-launch` |
+| SHIP | `git-workflow-and-versioning`, `ci-cd-and-automation`, `deprecation-and-migration`, `documentation-and-adrs`, `shipping-and-launch` |
