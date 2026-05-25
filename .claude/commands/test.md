@@ -17,3 +17,5 @@ For bug fixes (Prove-It pattern):
 5. Run the full test suite for regressions
 
 For browser-related issues, also invoke agent-skills:browser-testing-with-devtools to verify with Chrome DevTools MCP.
+
+If the bug resists reproduction in steps 1–2, escalate to the full feedback-loop-first workflow in agent-skills:debugging-and-error-recovery before continuing.

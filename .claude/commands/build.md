@@ -6,6 +6,7 @@ Invoke the agent-skills:incremental-implementation skill alongside agent-skills:
 
 Pick the next pending task from the plan. For each task:
 
+0. If the code area is unfamiliar, run Rule -1 from agent-skills:incremental-implementation — map the entry point, callers, and dependencies before touching any code.
 1. Read the task's acceptance criteria
 2. Load relevant context (existing code, patterns, types)
 3. Write a failing test for the expected behavior (RED)

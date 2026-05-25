@@ -14,3 +14,5 @@ Review the current changes (staged or recent commits) across all five axes:
 
 Categorize findings as Critical, Important, or Suggestion.
 Output a structured review with specific file:line references and fix recommendations.
+
+For significant architectural friction found in axis 3, surface deepening candidates using the vocabulary and candidate structure in agent-skills:code-review-and-quality. Do not propose a new interface inline — flag it as a follow-up task.
