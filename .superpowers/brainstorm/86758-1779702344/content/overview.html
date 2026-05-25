@@ -1,0 +1,67 @@
+<h2>Codecov vs ReportPortal: Core Focus</h2>
+<p class="subtitle">Both tools help with testing quality, but they solve different problems.</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">Codecov: Code Coverage</div>
+    <div class="mockup-body">
+      <div class="section">
+        <span class="label">Primary Goal</span>
+        <p>Measure and enforce code coverage (lines hit/missed).</p>
+      </div>
+      <div class="section">
+        <span class="label">Key Workflow</span>
+        <p>Injected into Pull Requests to block merges if coverage drops.</p>
+      </div>
+      <div class="section">
+        <span class="label">Integration</span>
+        <p>Tight integration with GitHub/GitLab/Bitbucket CI/CD.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">ReportPortal: Test Analytics</div>
+    <div class="mockup-body">
+      <div class="section">
+        <span class="label">Primary Goal</span>
+        <p>Unified dashboard for all test results and failure analysis.</p>
+      </div>
+      <div class="section">
+        <span class="label">Key Workflow</span>
+        <p>AI-powered failure triaging and categorization of test results.</p>
+      </div>
+      <div class="section">
+        <span class="label">Integration</span>
+        <p>Aggregates data from multiple frameworks (JUnit, PyTest, etc.).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 2rem;">
+  <h3>What is your primary goal for this comparison?</h3>
+  <div class="options" data-choice-group="goal">
+    <div class="option" data-choice="coverage" onclick="toggleSelect(this)">
+      <div class="letter">A</div>
+      <div class="content">
+        <h3>Code Coverage</h3>
+        <p>I want to ensure my developers are writing enough tests for their code changes.</p>
+      </div>
+    </div>
+    <div class="option" data-choice="analytics" onclick="toggleSelect(this)">
+      <div class="letter">B</div>
+      <div class="content">
+        <h3>Test Analytics & Triaging</h3>
+        <p>I want to understand why my tests are failing and have a central place to view results.</p>
+      </div>
+    </div>
+    <div class="option" data-choice="both" onclick="toggleSelect(this)">
+      <div class="letter">C</div>
+      <div class="content">
+        <h3>Both</h3>
+        <p>I'm looking for a comprehensive solution for both coverage and reporting.</p>
+      </div>
+    </div>
+  </div>
+</div>
