@@ -118,9 +118,9 @@ Skills are plain Markdown - they work with any agent that accepts system prompts
 
 ---
 
-## All 26 Skills
+## All 25 Skills
 
-The commands above are entry points. The pack includes 26 skills total — 24 lifecycle skills, the `workflow-tracker` companion skill, and the `using-agent-skills` meta-skill. Each skill is a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
+The commands above are entry points. The pack includes 25 skills total — 23 lifecycle skills, the `workflow-tracker` companion skill, and the `using-agent-skills` meta-skill. Each skill is a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
 
 ### Meta - Discover which skill applies
 
@@ -142,8 +142,7 @@ The commands above are entry points. The pack includes 26 skills total — 24 li
 
 | Skill | What It Does | Use When |
 |-------|-------------|----------|
-| [vertical-slicing](skills/vertical-slicing/SKILL.md) | Thin end-to-end slices that each deliver verifiable, demoable functionality through every layer | Breaking down a spec into tasks, when implementation order is unclear, or when horizontal layering is tempting |
-| [planning-and-task-breakdown](skills/planning-and-task-breakdown/SKILL.md) | Decompose specs into small, verifiable tasks with acceptance criteria and dependency ordering | You have a spec and need implementable units |
+| [planning-and-task-breakdown](skills/planning-and-task-breakdown/SKILL.md) | Vertical slicing, tracer bullet, HITL/AFK types, dependency ordering, verifiable tasks with acceptance criteria | You have a spec and need implementable units, or you need to determine slice boundaries |
 
 ### Build - Write the code
 
@@ -245,13 +244,12 @@ Every skill follows a consistent anatomy:
 
 ```
 agent-skills/
-├── skills/                            # 26 skills (24 lifecycle + 2 meta)
+├── skills/                            # 25 skills (23 lifecycle + 2 meta)
 │   ├── interview-me/                  #   Spec
 │   ├── idea-refine/                   #   Spec
 │   ├── spec-driven-development/       #   Spec
 │   ├── ubiquitous-language/           #   Spec
 │   ├── planning-and-task-breakdown/   #   Plan
-│   ├── vertical-slicing/              #   Plan
 │   ├── incremental-implementation/    #   Build
 │   ├── context-engineering/           #   Build
 │   ├── source-driven-development/     #   Build
