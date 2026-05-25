@@ -149,10 +149,12 @@ Scan for these patterns — each one is a concrete signal, not a vague smell:
 | Pattern | Signal | Simplification |
 |---------|--------|----------------|
 | Duplicated logic | Same 5+ lines in multiple places | Extract to a shared function |
-| Dead code | Unreachable branches, unused variables, commented-out blocks | Remove (after confirming it's truly dead) |
+| Dead code | Unreachable branches, unused variables, commented-out blocks | Remove (after confirming it's truly dead — see note below) |
 | Unnecessary abstractions | Wrapper that adds no value | Inline the wrapper, call the underlying function directly |
 | Over-engineered patterns | Factory-for-a-factory, strategy-with-one-strategy | Replace with the simple direct approach |
 | Redundant type assertions | Casting to a type that's already inferred | Remove the assertion |
+
+> **Static analysis alone is insufficient to confirm dead code.** Dynamic dispatch (interfaces, polymorphism, reflection, `eval`), feature flags (code that is "dead" in one flag state but live in another), and runtime plugin systems can keep code alive that static analysis marks as unused. Before removing code flagged as dead by a linter or IDE, verify: (1) no dynamic dispatch pattern could reach it, (2) no feature flag enables it, and (3) no external consumer (plugin, test fixture, serialized reference) references it by name.
 
 ### Step 3: Apply Changes Incrementally
 
@@ -169,6 +171,8 @@ FOR EACH SIMPLIFICATION:
 Avoid batching multiple simplifications into a single untested change. If something breaks, you need to know which simplification caused it.
 
 **The Rule of 500:** If a refactoring would touch more than 500 lines, invest in automation (codemods, sed scripts, AST transforms) rather than making the changes by hand. Manual edits at that scale are error-prone and exhausting to review.
+
+> Before running a codemod across the full codebase, apply it to a representative sample (10–20 files from different parts of the codebase) and review the output manually. Codemods that look correct on the target pattern can produce wrong output on edge cases — variable names that collide, patterns that partially match, or files with unusual formatting. Verify the sample first, then run the full transformation.
 
 ### Step 4: Verify the Result
 
