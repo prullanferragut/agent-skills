@@ -35,6 +35,8 @@ Apply this skill when:
 
 This skill needs a live, responsive user. **Do not invoke in non-interactive contexts** like CI pipelines, scheduled runs, `/loop`, or autonomous-loop. If you're in one of those and the ask is underspecified, flag that as a blocker for the user instead of guessing.
 
+> **If you cannot determine whether the context is interactive** (e.g., ambiguous environment, tool wrapper that buffers output), treat it as non-interactive. The cost of incorrectly treating an interactive session as non-interactive (the user sees a blocker note instead of questions) is lower than the cost of running an interview loop in a non-interactive context (infinite wait or garbled output). Default to non-interactive when uncertain.
+
 ## The Process
 
 ### Step 1: Hypothesize, with a confidence number
