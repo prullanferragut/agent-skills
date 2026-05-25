@@ -75,6 +75,8 @@ ASSUMPTIONS I'M MAKING:
 
 After listing assumptions, use the `question` tool to ask whether to proceed. Options: "Proceed with these assumptions" and "Correct an assumption".
 
+> **Confirmed assumptions become Boundaries.** After the user proceeds, translate each confirmed assumption into an entry in the spec's Boundaries section under "Always" or "Never", making them enforceable checkpoints rather than one-time acknowledgments. Example: assumption "targeting modern browsers only" becomes `Never: use APIs or polyfills targeting IE11 or pre-Chromium Edge`.
+
 Don't silently fill in ambiguous requirements. The spec's entire purpose is to surface misunderstandings *before* code gets written — assumptions are the most dangerous form of misunderstanding.
 
 **Write a spec document covering these six core areas:**
@@ -136,6 +138,8 @@ Don't silently fill in ambiguous requirements. The spec's entire purpose is to s
 - Ask first: [...]
 - Never: [...]
 
+> For each "Never" boundary that is automatically enforceable (linter rule, pre-commit hook, CI check), name the enforcement mechanism. An unenforced "Never" is advisory — it will be bypassed under pressure.
+
 ## Success Criteria
 [How we'll know this is done — specific, testable conditions]
 
@@ -157,6 +161,8 @@ REFRAMED SUCCESS CRITERIA:
 After presenting the reframed criteria, use the `question` tool to confirm them. Options: "Yes, these are correct", "Adjust one or more targets", and "No — these are wrong (specify)".
 
 This lets you loop, retry, and problem-solve toward a clear goal rather than guessing what "faster" means.
+
+> **Open Questions gate:** Before advancing to Phase 2, review the Open Questions list. If any question represents material architectural uncertainty (a question whose answer would change the system design or data model), stop and surface it to the user before proceeding. Do not begin planning with unresolved architectural uncertainty — the plan will be wrong.
 
 ### Phase 2: Plan
 
@@ -190,7 +196,7 @@ Break the plan into discrete, implementable tasks:
 
 ### Phase 4: Implement
 
-Execute tasks one at a time following `skills/incremental-implementation/SKILL.md` (`incremental-implementation`) and `skills/test-driven-development/SKILL.md` (`test-driven-development`). Use `skills/context-engineering/SKILL.md` (`context-engineering`) to load the right spec sections and source files at each step rather than flooding the agent with the entire spec.
+Execute tasks one at a time following `skills/incremental-implementation/SKILL.md` (`incremental-implementation`) and `skills/test-driven-development/SKILL.md` (`test-driven-development`). **Do not begin the next task until the current task's Verify step passes.** A failing Verify step means the current task is not complete — fix it before advancing. Use `skills/context-engineering/SKILL.md` (`context-engineering`) to load the right spec sections and source files at each step rather than flooding the agent with the entire spec.
 
 ## Keeping the Spec Alive
 
