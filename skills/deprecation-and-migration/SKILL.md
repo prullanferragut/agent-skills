@@ -117,6 +117,10 @@ Only after all consumers have migrated:
 5. Celebrate — removing code is an achievement
 ```
 
+> **Zero usage in metrics is necessary but not sufficient.** Also check: scheduled/cron jobs that may run infrequently (verify monthly cadence, not just the last 7 days), external partners or API consumers not visible in internal logs, mobile clients that cache API versions with long release cycles, and SDK consumers. When uncertain, add a tombstone log line and wait one full business cycle before removing.
+
+> **Data lifecycle is separate from code removal.** If the deprecated system owns data (database tables, storage buckets, message queues, file archives), document the data retention policy before removing any code. Never treat data removal as implicit in code removal — these are two separate decisions requiring separate approval.
+
 ## Migration Patterns
 
 ### Strangler Pattern
@@ -148,6 +152,8 @@ class LegacyTaskService implements OldTaskAPI {
 }
 ```
 
+> **Adapter type coercions must be tested at edge cases.** The `String(id)` conversion above is correct for positive integers but may not handle zero, very large IDs, leading zeros, or null/undefined inputs correctly. Test adapters with: empty values, null/undefined, maximum values, special characters, and any input that could fail the coercion silently.
+
 ### Feature Flag Migration
 
 Use feature flags to switch consumers from old to new system one at a time:
@@ -160,6 +166,8 @@ function getTaskService(userId: string): TaskService {
   return new LegacyTaskService();
 }
 ```
+
+> **Stateful operation guard:** For operations involving database writes, queued jobs, financial transactions, or any stateful work, ensure in-flight requests complete before enabling the flag. A hard cutover mid-operation risks data corruption if old and new systems have different schemas or semantics.
 
 ## Zombie Code
 
