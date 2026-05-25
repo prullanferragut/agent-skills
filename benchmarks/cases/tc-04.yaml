@@ -6,4 +6,8 @@ scripted_turns:
   - "We're a 3-person team building a B2B SaaS"
   - "The founder checks metrics manually in Stripe right now, it takes an hour a day"
   - "Yes that's the problem"
+  - "An email digest would be perfect actually"
+  - "MRR, new customers this week, churn — those three would cover it"
+  - "Yeah just those three, nothing else needed"
+  - "Yes that's the problem"
 judge_context: "User needs to eliminate an hour-a-day manual metrics review in Stripe; the solution space is a simple internal metrics view, not a full analytics platform."

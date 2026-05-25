@@ -6,4 +6,8 @@ scripted_turns:
   - "Yeah something like that, maybe with comments and upvotes"
   - "Just me and a few friends to start, maybe 10 people"
   - "Yes that sounds right"
+  - "Yeah a web app makes most sense"
+  - "Something simple, just post a project with a description and a link"
+  - "Exactly, nothing fancy — we can always add more later"
+  - "Yes, that's it"
 judge_context: "User wants a small private platform for ~10 developers to share and get feedback on side projects, not a public social network."

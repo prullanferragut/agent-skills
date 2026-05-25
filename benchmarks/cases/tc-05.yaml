@@ -6,4 +6,8 @@ scripted_turns:
   - "Login takes 3 seconds sometimes and we had two security incidents last year"
   - "Security incidents are the bigger problem honestly"
   - "Yes, security first"
+  - "I don't know exactly what caused them, we never did a full postmortem"
+  - "The team is scared to touch the auth code now, every change feels risky"
+  - "If we could trust that a change won't cause another incident, that would be enough"
+  - "Yes, security first, performance is secondary"
 judge_context: "User's binding constraint is security (two incidents), not performance; a targeted security audit and hardening is the right scope, not a full rewrite."

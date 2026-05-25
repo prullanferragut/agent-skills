@@ -6,4 +6,8 @@ scripted_turns:
   - "Honestly I just don't want to rewrite it in a year"
   - "Maybe 10k users in the first year would be success"
   - "Yes exactly"
+  - "Yeah it's greenfield, we're starting from scratch"
+  - "Just our small team, maybe 3 engineers adding features over time"
+  - "Right, I want us to be able to add features without things breaking"
+  - "Yes exactly, that captures it"
 judge_context: "User's real constraint is avoiding a rewrite in 12 months; 'scalable' is a proxy for that fear, not a genuine scale requirement."

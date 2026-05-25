@@ -6,4 +6,8 @@ scripted_turns:
   - "My team lead checks it every morning to see if anything broke overnight"
   - "If it shows green/red status for all services that would be enough"
   - "Yes, start with the dashboard"
+  - "We have maybe 8 services, all internal microservices"
+  - "They expose health endpoints already, yeah"
+  - "Just green if the endpoint responds 200, red if it doesn't or times out"
+  - "Yes, start with the dashboard"
 judge_context: "User needs a simple service-status dashboard for a team lead's morning check — the API and alerts are secondary and can be deferred."
