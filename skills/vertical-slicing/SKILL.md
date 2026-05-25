@@ -150,10 +150,7 @@ When a slice feels too large, ask: "What is the minimum behavior that would be w
 | Rationalization | Reality |
 | --------------- | ------- |
 | "It's faster to build the whole database first" | Faster to type, slower to discover that the API you designed does not fit the UI you need. |
-| "We can't demo anything until the UI is done" | The tracer bullet proves the path. A form that submits and shows a response is demoable. |
 | "These layers are too coupled to slice vertically" | That coupling is the problem. Vertical slicing forces you to confront it early instead of at integration time. |
-| "The slices are too thin to be useful tasks" | A thin slice that delivers demoable behavior is exactly the right size. Thin is not small — it is precise. |
-| "I'll add the tests after all slices are done" | Tests written after the fact test imagined behavior. Tests written per slice test actual behavior. |
 
 ## Red Flags
 
