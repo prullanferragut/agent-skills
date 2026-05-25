@@ -36,6 +36,8 @@ Write a failing test before writing the code that makes it pass. For bug fixes, 
 
 Write the test first. It must fail. A test that passes immediately proves nothing.
 
+> **Verify the failure reason, not just the failure.** A test that fails due to a missing import, wrong setup, or syntax error is not RED — it's broken. Before declaring RED, confirm the test fails with the expected failure message (e.g., "function not defined", "expected X but got Y"). A test failing for the wrong reason provides false confidence: it may turn green for the wrong reason too.
+
 ```typescript
 // RED: This test fails because createTask doesn't exist yet
 describe('TaskService', () => {
@@ -264,6 +266,20 @@ it('validates titles correctly', () => {
   expect(() => createTask({ title: 'a'.repeat(256) })).toThrow();
 });
 ```
+
+### Security-Sensitive Code: Use Adversarial Inputs
+
+For code that handles authentication, authorization, input validation, data sanitization, file uploads, or any security boundary, the test suite must include adversarial inputs — not only happy-path inputs.
+
+Adversarial inputs to test:
+- Empty strings, null, undefined
+- Strings that are valid in one context but dangerous in another (`'; DROP TABLE`, `<script>alert(1)</script>`, `../../../etc/passwd`)
+- Extremely long inputs (buffer overflow candidates)
+- Unicode edge cases (null bytes `\u0000`, right-to-left override, homoglyphs)
+- Inputs that are syntactically valid but semantically wrong (negative quantities, future dates in the past, IDs from a different user)
+- Boundary values (0, -1, MAX_INT, empty arrays, arrays with one item)
+
+A security function with only happy-path tests is functionally untested for its primary threat model.
 
 ### Name Tests Descriptively
 
