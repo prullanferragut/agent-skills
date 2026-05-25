@@ -80,6 +80,8 @@ Use PostgreSQL with Prisma ORM.
 - Hosting on managed service (Supabase, Neon, or RDS)
 ```
 
+> **The Consequences section must include drawbacks, not only benefits.** A Consequences section listing only positives is incomplete and misleads future readers. For each positive consequence, ask: "What does this cost or constrain?" Every architectural decision involves trade-offs; document them explicitly so future decision-makers understand what was accepted.
+
 ### ADR Lifecycle
 
 ```
@@ -153,6 +155,9 @@ For public APIs (REST, GraphQL, library interfaces):
  * @returns The created task with server-generated ID and timestamps
  * @throws {ValidationError} If title is empty or exceeds 200 characters
  * @throws {AuthenticationError} If the user is not authenticated
+ * // Note: only document @throws for errors the function actually produces.
+ * // @throws annotations for errors that are never thrown create false expectations
+ * // and mislead callers who write code to handle them.
  *
  * @example
  * const task = await createTask({ title: 'Buy groceries' });
@@ -237,6 +242,8 @@ For shipped features:
 - Task list now loads 50 items per page (was 20) for better UX (#126)
 ```
 
+> **Changelog entries must not expose internal implementation details.** Avoid: internal module names, database table names, internal API paths, server hostnames, and infrastructure identifiers. Changelogs are often public or semi-public. Entries should describe user-visible behavior and public API changes only.
+
 ## Documentation for Agents
 
 Special consideration for AI agent context:
@@ -245,6 +252,8 @@ Special consideration for AI agent context:
 - **Spec files** — Keep specs updated so agents build the right thing
 - **ADRs** — Help agents understand why past decisions were made (prevents re-deciding)
 - **Inline gotchas** — Prevent agents from falling into known traps
+
+> **Check rules files for contradictions before shipping.** A CLAUDE.md that says "always use named exports" in a codebase that has moved to default exports is more harmful than no CLAUDE.md — it actively misleads the agent. Before marking a feature complete, verify that the rules file reflects the current conventions observable in the codebase. If a contradiction is found, update the rules file as part of the same PR.
 
 ## Common Rationalizations
 
