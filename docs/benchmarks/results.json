@@ -24,7 +24,7 @@
           "noFluff": true,
           "total": 4
         },
-        "response": "HYPOTHESIS: You want a platform where people can connect, share content, and interact with each other — and \"social network\" was the shorthand that came to mind, but the actual scope, audience, and core mechanic are still undefined.\nCONFIDENCE: ~15%\n\n---\n\nQ: Who are the people using this, and what's the one thing you want them to be able to do with each other that they can't do well anywhere else?\n\nGUESS: This is probably not a general-purpose Facebook clone. My guess is there's a specific community or interaction type in mind — maybe a niche interest group, a professional network for a particular industry, or a way for people in a specific context (local area, hobby, team) to coordinate. The \"social network\" framing is the convention, but the real value is something narrower."
+        "response": "HYPOTHESIS: You want a platform where people can connect, share content, and interact with each other — and \"social network\" was the shorthand that came to mind, but the actual scope, audience, and core mechanic are still undefined.\nCONFIDENCE: ~15%\n\nQ: Who are the people using this, and what's the one thing you want them to be able to do with each other that they can't do well anywhere else?\n\nGUESS: This is probably not a general-purpose Facebook clone. My guess is there's a specific community or interaction type in mind."
       },
       {
         "variant": "wheat-shot",
@@ -35,8 +35,143 @@
           "noFluff": true,
           "total": 4
         },
-        "response": "HYPOTHESIS: You want to build a social network for a specific community or use case you already have in mind, and \"social network\" is the shorthand you reached for because it captures the general shape.\nCONFIDENCE: ~20%\n\nQ: Who are the people using this — a specific group you already have access to (coworkers, a hobby community, a niche audience), or are you trying to build a public network open to anyone?\n\nGUESS: a specific community, not a general public platform — most people who say \"build a social network\" have a particular group in mind, not a Facebook-scale ambition."
+        "response": "HYPOTHESIS: You want to build a social network for a specific community or use case you already have in mind, and \"social network\" is the shorthand you reached for because it captures the general shape.\nCONFIDENCE: ~20%\n\nQ: Who are the people using this — a specific group you already have access to (coworkers, a hobby community, a niche audience), or are you trying to build a public network open to anyone?\n\nGUESS: a specific community, not a general public platform."
       }
     ]
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-01",
+    "variant": "zero-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-01",
+    "variant": "chaff-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-01",
+    "variant": "wheat-shot",
+    "judgeScores": {"outcome_captured":5,"user_identified":5,"success_criterion":5,"out_of_scope_stated":5,"total":20,"rationale":"Restate names a simple web app for sharing side projects and getting peer reactions, matching the private feedback platform intent exactly|Users are identified as ~10 developers including the requester and friends, not a generic public audience|Success criterion is concrete and time-bound: everyone can post and comment/upvote within the first week|Out of scope is an explicit, itemized list covering public discovery, growth, notifications, profiles, and features beyond post+comment+upvote"},
+    "restate": "- Outcome: A simple web app where a small group of developers can post side projects and get reactions from peers\n- User: ~10 developers (you + friends), not a public audience\n- Success: Everyone in the group can post a project and leave comments/upvotes within the first week\n- Constraint: Small scale — no need for auth systems, moderation, or scalability infrastructure yet\n- Out of scope: Public discovery, user growth, notifications, profiles, or anything beyond post + comment + upvote"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-02",
+    "variant": "zero-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-02",
+    "variant": "chaff-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-02",
+    "variant": "wheat-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-03",
+    "variant": "zero-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-03",
+    "variant": "chaff-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-03",
+    "variant": "wheat-shot",
+    "judgeScores": {"outcome_captured":5,"user_identified":5,"success_criterion":5,"out_of_scope_stated":5,"total":20,"rationale":"Restate specifies a green/red status board for overnight health confirmation, matching the true intent exactly|Team lead doing a morning check is named with role and temporal context, not a generic user|'10 seconds without opening another tool' is concrete, measurable, and checkable|API, alerts, real-time monitoring, on-call paging, and diagnostics are all explicitly listed as out of scope"},
+    "restate": "- Outcome: A status board showing green/red for each service so the team lead can confirm overnight health in one glance\n- User: Team lead doing a morning check, not engineers debugging in real time\n- Success: Team lead can answer 'did anything break overnight?' in under 10 seconds without opening another tool\n- Constraint: Must be simple enough to be read at a glance — no deep metrics, no drill-down required\n- Out of scope: The API and alerts are not part of this; real-time monitoring, on-call paging, and detailed diagnostics are explicitly not being built"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-04",
+    "variant": "zero-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-04",
+    "variant": "chaff-shot",
+    "judgeScores": {"outcome_captured":5,"user_identified":5,"success_criterion":5,"out_of_scope_stated":5,"total":20,"rationale":"Restate names the exact outcome (eliminate manual Stripe metrics review) matching ground truth|User is identified as a non-technical/time-constrained B2B SaaS founder with daily-review context|Success criterion is concrete and checkable: same signal in under 2 minutes without manual login|Out-of-scope items are explicitly listed: no Stripe replacement, no new payment features, no multi-tool dashboards"},
+    "restate": "- Outcome: Automate the founder's daily Stripe metrics review so it no longer requires manual effort.\n- User: A non-technical or time-constrained B2B SaaS founder who checks Stripe daily for business health signals.\n- Why now: 1 hour/day is ~20 hours/month of founder time lost to a task that can be automated.\n- Success: The founder gets the same signal they get today from Stripe — in under 2 minutes, without logging in manually.\n- Constraint: Must integrate with Stripe's existing data; no rebuilding the billing stack.\n- Out of scope: Replacing Stripe, adding new payment features, multi-tool dashboards (for now)."
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-04",
+    "variant": "wheat-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-05",
+    "variant": "zero-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-05",
+    "variant": "chaff-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
+  },
+  {
+    "runDate": "2026-05-25T00:00:00.000Z",
+    "benchmarkVersion": "v2",
+    "model": "claude-sonnet-4-6",
+    "testCaseId": "tc-05",
+    "variant": "wheat-shot",
+    "judgeScores": {"outcome_captured":1,"user_identified":1,"success_criterion":1,"out_of_scope_stated":1,"total":4,"rationale":"NO_RESTATE|NO_RESTATE|NO_RESTATE|NO_RESTATE"},
+    "restate": "NO_RESTATE"
   }
 ]
