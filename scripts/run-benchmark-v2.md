@@ -12,12 +12,14 @@ Run 5 test cases × 3 variants = 15 conversations. For each, dispatch a subagent
 
 **Wheat:**
 ```
-Role: Interviewer. 1. State HYPOTHESIS (one-sentence + confidence score). 2. Ask 1 question + append GUESS. 3. If user uses jargon, ask: 'If you didn't have to justify this to anyone, what would you actually want?'. 4. Finish with RESTATE (Outcome, User, Success, Constraint, Out of Scope). 5. Gate: Wait for 'yes'.
+Role: Interviewer. 1. State HYPOTHESIS (one-sentence + confidence score). 2. Ask 1 question + append GUESS. 3. If user uses jargon, ask: 'If you didn't have to justify this to anyone, what would you actually want?'. 4. Finish with RESTATE (Outcome, User, Success, Constraint, Out of scope). 5. Gate: Wait for 'yes'.
 ```
 
 ## Per Test Case Protocol
 
 Repeat for each of the 5 YAML files in `benchmarks/cases/`. Run all 3 variants before moving to the next test case.
+
+**Pre-flight:** Verify all 5 YAML files exist in `benchmarks/cases/` (`tc-01.yaml` through `tc-05.yaml`). Read each and confirm `initial_ask`, `scripted_turns` (4 entries), and `judge_context` are present. Abort if any file is missing or malformed.
 
 ### Step 1: Read the test case YAML
 
@@ -41,7 +43,7 @@ When you produce a restate (a structured summary containing "Outcome:", "User:",
 If after 4 user messages you have not produced a restate, output exactly: NO_RESTATE
 ```
 
-After the subagent responds, check if the response contains `Outcome:`. If yes, stop and record the restate. If no, resume the subagent (using the same task_id) with the next scripted turn as: `User: "<scripted_turns[n]>"`. Do this for up to 4 turns. If no restate after turn 4, record `NO_RESTATE`.
+**Turn protocol:** `initial_ask` is turn 0 (not counted against the 4-turn limit). Send `scripted_turns[0]` through `scripted_turns[3]` in order, one per exchange, resuming the same subagent task_id. After each turn, check if the response contains **all 5 restate fields**: `Outcome:`, `User:`, `Success:`, `Constraint:`, and `Out of scope:`. If all 5 are present, stop and record the restate. If some but not all are present, record `PARTIAL_RESTATE` (score all judge dimensions as 2). If none are present, send the next scripted turn. After `scripted_turns[3]` if no restate has been produced, record `NO_RESTATE` and stop.
 
 Collect the full exchange as a transcript array:
 ```json
@@ -73,6 +75,8 @@ When you produce a restate (a structured summary containing "Outcome:", "User:",
 If after 4 user messages you have not produced a restate, output exactly: NO_RESTATE
 ```
 
+**Turn protocol:** `initial_ask` is turn 0 (not counted against the 4-turn limit). Send `scripted_turns[0]` through `scripted_turns[3]` in order, one per exchange, resuming the same subagent task_id. After each turn, check if the response contains **all 5 restate fields**: `Outcome:`, `User:`, `Success:`, `Constraint:`, and `Out of scope:`. If all 5 are present, stop and record the restate. If some but not all are present, record `PARTIAL_RESTATE` (score all judge dimensions as 2). If none are present, send the next scripted turn. After `scripted_turns[3]` if no restate has been produced, record `NO_RESTATE` and stop.
+
 ### Step 4: Run Wheat variant
 
 Same as Step 2, but prepend the Wheat payload as system context:
@@ -80,7 +84,7 @@ Same as Step 2, but prepend the Wheat payload as system context:
 ```
 You are an AI assistant. Apply these instructions exactly:
 
-Role: Interviewer. 1. State HYPOTHESIS (one-sentence + confidence score). 2. Ask 1 question + append GUESS. 3. If user uses jargon, ask: 'If you didn't have to justify this to anyone, what would you actually want?'. 4. Finish with RESTATE (Outcome, User, Success, Constraint, Out of Scope). 5. Gate: Wait for 'yes'.
+Role: Interviewer. 1. State HYPOTHESIS (one-sentence + confidence score). 2. Ask 1 question + append GUESS. 3. If user uses jargon, ask: 'If you didn't have to justify this to anyone, what would you actually want?'. 4. Finish with RESTATE (Outcome, User, Success, Constraint, Out of scope). 5. Gate: Wait for 'yes'.
 
 The user has sent you: "<initial_ask>"
 
@@ -89,6 +93,8 @@ After each of your responses, wait — I will provide the next user message.
 When you produce a restate (a structured summary containing "Outcome:", "User:", "Success:", "Constraint:", "Out of scope:"), output the restate clearly and stop.
 If after 4 user messages you have not produced a restate, output exactly: NO_RESTATE
 ```
+
+**Turn protocol:** `initial_ask` is turn 0 (not counted against the 4-turn limit). Send `scripted_turns[0]` through `scripted_turns[3]` in order, one per exchange, resuming the same subagent task_id. After each turn, check if the response contains **all 5 restate fields**: `Outcome:`, `User:`, `Success:`, `Constraint:`, and `Out of scope:`. If all 5 are present, stop and record the restate. If some but not all are present, record `PARTIAL_RESTATE` (score all judge dimensions as 2). If none are present, send the next scripted turn. After `scripted_turns[3]` if no restate has been produced, record `NO_RESTATE` and stop.
 
 ### Step 5: Judge all 3 variants
 
@@ -119,6 +125,18 @@ Score each dimension 1–5:
 
 If the restate is NO_RESTATE, all dimensions score 1.
 
+### Scoring examples
+
+**user_identified:**
+- Score 1: "Users will benefit from this feature."
+- Score 3: "The development team needs this."
+- Score 5: "A team lead at a 3-person B2B SaaS startup who manually reviews Stripe metrics for an hour each day."
+
+**out_of_scope_stated:**
+- Score 1: Restate has no out-of-scope line.
+- Score 3: Restate says "We won't boil the ocean" without naming what is excluded.
+- Score 5: Restate says "Out of scope: API endpoints and alerting system — dashboard only for this phase."
+
 Return ONLY valid JSON, no prose:
 {
   "outcome_captured": <1-5>,
@@ -134,13 +152,13 @@ The three judges for a single test case can be dispatched in parallel (one messa
 
 ### Step 6: Append results
 
-For each variant, append one entry to `docs/benchmarks/results.json`:
+For each variant, read `docs/benchmarks/results.json`, parse the JSON array, push the new entry object, and write the full array back to the file. Do this after each variant completes. If the file does not exist, create it with `[]` first.
 
 ```json
 {
   "runDate": "<ISO timestamp>",
   "benchmarkVersion": "v2",
-  "model": "claude-sonnet-4-6 (opencode subagents)",
+  "model": "<model identifier — set to the model you are running as, e.g. claude-sonnet-4-6>",
   "testCaseId": "<id>",
   "variant": "<zero-shot|chaff-shot|wheat-shot>",
   "judgeScores": <judge JSON output>,
@@ -148,6 +166,8 @@ For each variant, append one entry to `docs/benchmarks/results.json`:
   "restate": "<restate text or NO_RESTATE>"
 }
 ```
+
+Set `model` to the identifier of the model running the subagents. If unknown, use `unknown`.
 
 ## After All 15 Runs
 
@@ -164,8 +184,9 @@ Print this summary table:
 ```
 
 **Interpret results:**
-- Delta ≤ 2 on all cases → fidelity claim supported
-- Delta ≥ 3 on any case → fidelity failure on that case, flag it
+- delta = Chaff total − Wheat total (positive = Wheat underperforms Chaff)
+- |delta| ≤ 2 on all cases → fidelity claim supported
+- delta ≥ 3 on any case → fidelity failure on that case, flag it
 
 Commit results:
 ```bash
