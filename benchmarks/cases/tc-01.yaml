@@ -1,0 +1,9 @@
+id: tc-01
+category: clean-trigger
+initial_ask: "Build a social network"
+scripted_turns:
+  - "For developers to share side projects"
+  - "Yeah something like that, maybe with comments and upvotes"
+  - "Just me and a few friends to start, maybe 10 people"
+  - "Yes that sounds right"
+judge_context: "User wants a small private platform for ~10 developers to share and get feedback on side projects, not a public social network."

@@ -1,0 +1,9 @@
+id: tc-02
+category: jargon
+initial_ask: "Make it scalable and clean"
+scripted_turns:
+  - "I mean it should handle growth"
+  - "Honestly I just don't want to rewrite it in a year"
+  - "Maybe 10k users in the first year would be success"
+  - "Yes exactly"
+judge_context: "User's real constraint is avoiding a rewrite in 12 months; 'scalable' is a proxy for that fear, not a genuine scale requirement."

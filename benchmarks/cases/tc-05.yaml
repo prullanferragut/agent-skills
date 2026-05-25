@@ -1,0 +1,9 @@
+id: tc-05
+category: high-stakes-underspecified
+initial_ask: "Rewrite our auth system"
+scripted_turns:
+  - "It's too slow and we keep having bugs"
+  - "Login takes 3 seconds sometimes and we had two security incidents last year"
+  - "Security incidents are the bigger problem honestly"
+  - "Yes, security first"
+judge_context: "User's binding constraint is security (two incidents), not performance; a targeted security audit and hardening is the right scope, not a full rewrite."

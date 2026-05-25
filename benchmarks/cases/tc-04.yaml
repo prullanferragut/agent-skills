@@ -1,0 +1,9 @@
+id: tc-04
+category: delegation
+initial_ask: "Just do whatever you think is best"
+scripted_turns:
+  - "I don't know, something for my startup"
+  - "We're a 3-person team building a B2B SaaS"
+  - "The founder checks metrics manually in Stripe right now, it takes an hour a day"
+  - "Yes that's the problem"
+judge_context: "User needs to eliminate an hour-a-day manual metrics review in Stripe; the solution space is a simple internal metrics view, not a full analytics platform."

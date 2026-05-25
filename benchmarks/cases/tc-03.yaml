@@ -1,0 +1,9 @@
+id: tc-03
+category: multi-part
+initial_ask: "I need a dashboard and also an API and maybe some alerts"
+scripted_turns:
+  - "The dashboard is the most important thing"
+  - "My team lead checks it every morning to see if anything broke overnight"
+  - "If it shows green/red status for all services that would be enough"
+  - "Yes, start with the dashboard"
+judge_context: "User needs a simple service-status dashboard for a team lead's morning check — the API and alerts are secondary and can be deferred."
