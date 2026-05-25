@@ -41,6 +41,8 @@ Security-first development practices for web applications. Treat every external 
 - Modifying rate limiting or throttling
 - Granting elevated permissions or roles
 
+> **Non-interactive sessions:** If you cannot obtain human approval (autonomous run, unattended agent), do not proceed with an Ask First action. Write a note to the user describing what was blocked and why, then stop.
+
 ### Never Do
 
 - **Never commit secrets** to version control (API keys, passwords, tokens)
@@ -122,6 +124,8 @@ app.patch('/api/tasks/:id', authenticate, async (req, res) => {
   const updated = await taskService.update(req.params.id, req.body);
   return res.json(updated);
 });
+
+> **Note:** This pattern handles direct ownership only. For role-based or hierarchical access (e.g., admin can access any resource, team members share access), the check must verify that the user's role grants the specific action on the specific resource — not just that they are authenticated.
 ```
 
 ### 5. Security Misconfiguration
@@ -209,7 +213,8 @@ function validateUpload(file: UploadedFile) {
   if (file.size > MAX_SIZE) {
     throw new ValidationError('File too large (max 5MB)');
   }
-  // Don't trust the file extension — check magic bytes if critical
+  // Always verify file type by inspecting magic bytes — do not rely on the
+  // user-supplied MIME type or file extension, both are attacker-controlled.
 }
 ```
 
@@ -282,6 +287,8 @@ app.use('/api/auth/', rateLimit({
 git diff --cached | grep -i "password\|secret\|api_key\|token"
 ```
 
+> **Note:** This grep catches obvious variable names but misses many common secret formats (JWT tokens, PEM blocks, AWS key IDs starting with `AKIA`, base64-encoded credentials). For stronger coverage use a dedicated scanner: `git-secrets`, `truffleHog`, `gitleaks`, or `detect-secrets`. Treat the manual grep as a reminder, not a security control.
+
 ## Security Review Checklist
 
 ```markdown
@@ -346,4 +353,5 @@ After implementing security-relevant code:
 - [ ] Authentication and authorization checked on every protected endpoint
 - [ ] Security headers present in response (check with browser DevTools)
 - [ ] Error responses don't expose internal details
+- [ ] Error handlers return generic messages in production — no stack traces, file paths, or internal service names in HTTP responses
 - [ ] Rate limiting active on auth endpoints
