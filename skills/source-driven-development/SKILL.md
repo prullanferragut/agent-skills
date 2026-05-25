@@ -48,6 +48,8 @@ Cargo.toml      → Rust
 Gemfile         → Ruby/Rails
 ```
 
+> **In monorepos, read the package manifest closest to the file being modified**, not the root manifest. A monorepo may have packages using different framework versions — the root `package.json` may not list the version relevant to your task. Check `packages/<name>/package.json` or `apps/<name>/package.json` as appropriate.
+
 State what you found explicitly:
 
 ```
@@ -57,6 +59,8 @@ STACK DETECTED:
 - Tailwind CSS 4.0.3
 → Fetching official docs for the relevant patterns.
 ```
+
+> **After fetching docs, confirm the version matches.** Official docs sites often show the latest version by default. Before implementing, verify that the version shown in the docs URL or version selector matches the version you detected. A mismatch means you are implementing patterns for the wrong version.
 
 If versions are missing or ambiguous, **ask the user**. Don't guess — the version determines which patterns are correct.
 
@@ -156,6 +160,8 @@ UNVERIFIED: I could not find official documentation for this
 pattern. This is based on training data and may be outdated.
 Verify before using in production.
 ```
+
+> **UNVERIFIED patterns in security-critical code require explicit user confirmation before proceeding.** If the unverified pattern will be used in authentication, authorization, encryption, secret handling, or input validation, stop and surface the uncertainty to the user using the `question` tool with options: "Proceed with the unverified pattern (I accept the risk)", "Research further before implementing", or "Use a different, verified approach". Do not silently proceed with unverified security patterns.
 
 Honesty about what you couldn't verify is more valuable than false confidence.
 
