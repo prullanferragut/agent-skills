@@ -55,6 +55,8 @@ Security-first development practices for web applications. Treat every external 
 
 ## OWASP Top 10 Prevention
 
+> **Note:** This section covers the most common OWASP Top 10 vulnerabilities (A01 Broken Access Control, A02 Cryptographic Failures, A03 Injection, A05 Security Misconfiguration, A06 Vulnerable Components, A07 Auth Failures). It does not cover every category. Refer to the full [OWASP Top 10](https://owasp.org/www-project-top-ten/) before signing off on a security review.
+
 ### 1. Injection (SQL, NoSQL, OS Command)
 
 ```typescript
