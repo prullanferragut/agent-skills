@@ -1,6 +1,6 @@
 id: tc-02
 category: jargon
-initial_ask: "Make it scalable and clean"
+initial_ask: "We need our new system to be scalable and clean"
 scripted_turns:
   - "I mean it should handle growth"
   - "Honestly I just don't want to rewrite it in a year"
