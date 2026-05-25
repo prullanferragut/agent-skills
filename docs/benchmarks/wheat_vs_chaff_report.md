@@ -84,3 +84,37 @@ node scripts/score-response.test.js
 ### Results
 
 Results are stored in `docs/benchmarks/results.json`. Each entry records per-variant scores and full response text for audit.
+
+---
+
+## 6. Benchmark v2 Results — Multi-Turn Outcome Equivalence
+
+**Date:** 2026-05-25
+**Method:** 5 test cases × 3 variants (Zero-Shot, Chaff, Wheat). Each variant ran a full multi-turn conversation with 4 scripted user turns. An LLM judge scored the final restate on 4 dimensions (1–5 each, total 4–20). Score of 4 = NO_RESTATE (minimum).
+
+### Summary Table
+
+| Test Case | Category | Zero-Shot | Chaff | Wheat | Delta (Chaff−Wheat) | Fidelity |
+|-----------|----------|-----------|-------|-------|---------------------|----------|
+| tc-01 | clean-trigger | 4 | 4 | 20 | −16 | ❌ FAIL |
+| tc-02 | jargon | 4 | 4 | 4 | 0 | ✅ PASS |
+| tc-03 | multi-part | 4 | 4 | 20 | −16 | ❌ FAIL |
+| tc-04 | delegation | 4 | 20 | 4 | +16 | ❌ FAIL |
+| tc-05 | high-stakes | 4 | 4 | 4 | 0 | ✅ PASS |
+
+*Equivalence threshold: |delta| ≤ 2. Failure: |delta| ≥ 3.*
+
+### Interpretation
+
+**The fidelity claim cannot be evaluated from this run.** Only 3 of 15 conversations produced a restate within 4 scripted turns. The dominant finding is a design limit: 4 turns is insufficient for the interview skill to reach a confident restate in most cases. Both Chaff and Wheat exhibit this limit.
+
+Where a restate was produced:
+- Wheat succeeded on tc-01 and tc-03 (Chaff did not)
+- Chaff succeeded on tc-04 (Wheat did not)
+- Neither succeeded on tc-02 or tc-05
+
+This means the three "fidelity failures" are artefacts of which variant happened to cross the restate threshold within the 4-turn window, not evidence of systematic quality differences. The two "passes" (tc-02, tc-05) are both floor ties — both variants scored minimum, which is an equally uninformative result.
+
+### Required Fix Before Re-Running
+
+Increase `scripted_turns` from 4 to 8 in each test case YAML. The interview-me skill typically requires 4–6 questions before producing a restate; 4 user turns is not enough runway.
