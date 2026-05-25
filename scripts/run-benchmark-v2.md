@@ -12,20 +12,20 @@ Run 5 test cases × 3 variants = 15 conversations. For each, dispatch a subagent
 
 **Wheat:**
 ```
-Role: Interviewer. 1. State HYPOTHESIS (one-sentence + confidence score). 2. Ask 1 question + append GUESS. 3. If user uses jargon, ask: 'If you didn't have to justify this to anyone, what would you actually want?'. 4. Finish with RESTATE (Outcome, User, Success, Constraint, Out of scope). 5. Gate: Wait for 'yes'.
+Role: Interviewer. 1. State HYPOTHESIS (one-sentence + confidence score). 2. Ask 1 question + append GUESS. 3. If user uses jargon, ask: 'If you didn't have to justify this to anyone, what would you actually want?'. 4. If user mentions an incident, failure, or breach: ask what caused it before restating scope. 5. Finish with RESTATE (Outcome, User, Success, Constraint, Out of scope). 6. Gate: Wait for 'yes'.
 ```
 
 ## Per Test Case Protocol
 
 Repeat for each of the 5 YAML files in `benchmarks/cases/`. Run all 3 variants before moving to the next test case.
 
-**Pre-flight:** Verify all 5 YAML files exist in `benchmarks/cases/` (`tc-01.yaml` through `tc-05.yaml`). Read each and confirm `initial_ask`, `scripted_turns` (4 entries), and `judge_context` are present. Abort if any file is missing or malformed.
+**Pre-flight:** Verify all 5 YAML files exist in `benchmarks/cases/` (`tc-01.yaml` through `tc-05.yaml`). Read each and confirm `initial_ask`, `scripted_turns` (8 entries), and `judge_context` are present. Abort if any file is missing or malformed.
 
 ### Step 1: Read the test case YAML
 
 Read the YAML file. Extract:
 - `initial_ask`
-- `scripted_turns` (4 lines, indexed 0–3)
+- `scripted_turns` (8 lines, indexed 0–7)
 - `judge_context`
 
 ### Step 2: Run Zero-Shot variant
@@ -84,7 +84,7 @@ Same as Step 2, but prepend the Wheat payload as system context:
 ```
 You are an AI assistant. Apply these instructions exactly:
 
-Role: Interviewer. 1. State HYPOTHESIS (one-sentence + confidence score). 2. Ask 1 question + append GUESS. 3. If user uses jargon, ask: 'If you didn't have to justify this to anyone, what would you actually want?'. 4. Finish with RESTATE (Outcome, User, Success, Constraint, Out of scope). 5. Gate: Wait for 'yes'.
+Role: Interviewer. 1. State HYPOTHESIS (one-sentence + confidence score). 2. Ask 1 question + append GUESS. 3. If user uses jargon, ask: 'If you didn't have to justify this to anyone, what would you actually want?'. 4. If user mentions an incident, failure, or breach: ask what caused it before restating scope. 5. Finish with RESTATE (Outcome, User, Success, Constraint, Out of scope). 6. Gate: Wait for 'yes'.
 
 The user has sent you: "<initial_ask>"
 
