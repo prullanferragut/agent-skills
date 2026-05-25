@@ -35,6 +35,8 @@ Build in thin vertical slices — implement one piece, test it, verify it, then 
 
 For each slice:
 
+Before step 1: if the code area is unfamiliar, apply Rule -1 (Map before you touch) from the Implementation Rules below.
+
 1. **Implement** the smallest complete piece of functionality
 2. **Test** — run the test suite (or write a test if none exists)
 3. **Verify** — confirm the slice works as expected (tests pass, build succeeds, manual check)
@@ -90,10 +92,10 @@ If Slice 1 fails, you discover it before investing in Slices 2 and 3.
 
 ### Rule -1: Map before you touch
 
-If the code area you're about to change is unfamiliar, build a module map before writing a single line:
+If you cannot immediately name the direct callers and dependencies of the entry point without looking them up, the area is unfamiliar — run the map. Build a module map before writing a single line:
 
 1. **Identify the entry point** — the function, file, or module where work will happen.
-2. **Map upward (callers)** — who calls this? Who calls them? Go up two levels unless the graph is very shallow.
+2. **Map upward (callers)** — who calls this? Who calls them? Go up two levels unless the entry point has only one caller (the graph is trivially shallow).
 3. **Map downward (dependencies)** — what does this depend on? Identify direct dependencies and their interfaces — you don't need their internals, just what they expose.
 4. **Identify seams** — where are the interface boundaries? What could change without affecting callers, and what can't?
 5. **Check domain vocabulary** — if the project has a `CONTEXT.md` or `docs/adr/`, scan it. Use the project's terms, don't invent new names for existing concepts.
@@ -103,12 +105,21 @@ If the code area you're about to change is unfamiliar, build a module map before
      ← called by: [caller A], [caller B]
      → depends on: [dep X] (<one-line interface summary>)
                    [dep Y] (<one-line interface summary>)
-     seams: [where the interface lives and what varies across it]
+      seams: [e.g. "function signature in auth.ts:42 — callers pass userId, impl details are private"]
    ```
 
-If the map reveals the change is riskier than expected (many callers, tight coupling, undocumented contracts), surface that before proceeding.
+**Reading files to build this map is not a scope violation.** Rule 0.5 prohibits editing files outside your task scope — reading callers and dependencies to understand the boundary is the prerequisite for staying within scope, not a violation of it.
 
-Skip Rule -1 only when you have recent, direct familiarity with the code. "I read it once" is not familiarity. "I modified it last week and remember the structure" is.
+If the map reveals the change is riskier than expected (many callers, tight coupling, undocumented contracts), stop and tell the user what you found. Do not proceed until they confirm the approach or revise the task scope.
+
+**Cap the map at two caller levels and two dependency levels.** If either graph exceeds five nodes at any level, note 'call graph is wide — showing first five' and stop expanding. A map that takes longer to produce than the change itself has missed the point.
+
+Skip Rule -1 only when ALL of the following are true:
+- You edited this specific file or function in the current session, OR the task description explicitly tells you the structure
+- You can name the direct callers of the entry point without looking them up
+- You can name the direct dependencies of the entry point without looking them up
+
+If any of these is false, run the map.
 
 ### Rule 0: Simplicity First
 
