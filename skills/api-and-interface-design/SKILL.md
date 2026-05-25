@@ -109,6 +109,8 @@ app.post('/api/tasks', async (req, res) => {
 });
 ```
 
+> **Limit validation error detail in public APIs.** `result.error.flatten()` exposes your full schema structure — field names, types, and validation rules — to any caller. For internal or trusted clients this is fine. For public APIs, consider returning only user-facing messages rather than machine-readable schema details, which can help attackers enumerate your data model.
+
 Where validation belongs:
 - API route handlers (user input)
 - Form submission handlers (user input)
@@ -142,6 +144,8 @@ interface CreateTaskInput {
   priority: number;         // Changed from string — breaks existing consumers
 }
 ```
+
+> **Enum values in persisted or transmitted data are a breaking-change surface.** Adding a new enum value (e.g., `'urgent'` to a `priority` field) is safe for new consumers but breaks old consumers that use exhaustive switch statements or stored the value in a database. Treat enum additions the same as new required fields: document them in a changelog, version the API if consumers cannot tolerate the addition, and verify all existing switch statements handle unknown values gracefully.
 
 ### 5. Predictable Naming
 
