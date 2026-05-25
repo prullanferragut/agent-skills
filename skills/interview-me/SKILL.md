@@ -102,11 +102,14 @@ Here's what I now think you want:
 - Success:      <one line — how we know it worked>
 - Constraint:   <one line — the binding limit>
 - Out of scope: <one line — what we're explicitly not doing>
+- Risks to flag: <one line — regulatory, legal, ethical, or welfare concerns surfaced during interview; omit if none>
 
 Yes / no / refine?
 ```
 
 After presenting the restate, collect the user's response using the `question` tool with these options: "Yes — this is correct, proceed", "No — one or more lines are wrong (specify)", and "Refine — partially correct, needs adjustment".
+
+> Populate "Risks to flag" when the interview surfaced anything touching regulated data (HIPAA, GDPR, PCI), third-party terms of service, children's platforms, or the welfare of people not in the conversation. This does not require legal expertise — it requires surfacing the concern so the user can decide.
 
 Including "Out of scope" is non-negotiable. Half of misalignment is silent disagreement about what is *not* being built.
 
@@ -118,6 +121,8 @@ The gate is an explicit "yes." The following are **not** yes:
 - "Sounds good." → Ambiguous. Ask: "Anything you'd refine?" Silence isn't confirmation.
 - "Sure, let's go." → Often a polite exit, not an endorsement. Same follow-up.
 - Silence followed by "okay let's start." → The user has given up on the interview, not converged. Stop and ask whether you've missed something.
+
+> **Delegation loop cap:** If the user has delegated three or more times in a row without engaging substantively with either concrete option, stop presenting options. Say: "I need at least one substantive answer to proceed — if you'd like to continue later, I can hold the restate. I won't guess." Do not proceed to a spec or plan without an explicit answer.
 
 If they correct you, fold the correction in and restate. Loop until you get an explicit yes.
 
@@ -180,7 +185,7 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 ## Interaction with Other Skills
 
 - **`idea-refine`**: downstream. If the confirmed intent is "I want X but I don't know how to scope it," hand off to `idea-refine` to generate variations against the now-explicit intent.
-- **`spec-driven-development`**: downstream. If the confirmed intent is concrete ("I want X for Y users with Z success criteria"), hand off to `spec-driven-development` to write it down.
+- **`spec-driven-development`**: downstream. If the confirmed intent is concrete ("I want X for Y users with Z success criteria"), hand off to `spec-driven-development` to write it down. **Pass the complete restate (all fields, including Out of scope and Risks to flag if populated) as the starting context for the spec.** Do not summarize or truncate — silently dropping Out of scope is the most common source of downstream scope creep.
 - **`planning-and-task-breakdown`**: two hops downstream of this skill (after the spec).
 - **`doubt-driven-development`**: opposite end of the timeline. Interview-me is pre-decision intent extraction; doubt-driven is post-decision artifact review. Both catch divergence, but at different moments.
 - **`source-driven-development`**: orthogonal. Interview-me clarifies what the user wants; SDD verifies framework facts. They don't compete.
