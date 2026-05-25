@@ -142,8 +142,8 @@ The commands above are entry points. The pack includes 26 skills total — 24 li
 
 | Skill | What It Does | Use When |
 |-------|-------------|----------|
-| [planning-and-task-breakdown](skills/planning-and-task-breakdown/SKILL.md) | Decompose specs into small, verifiable tasks with acceptance criteria and dependency ordering | You have a spec and need implementable units |
 | [vertical-slicing](skills/vertical-slicing/SKILL.md) | Thin end-to-end slices that each deliver verifiable, demoable functionality through every layer | Breaking down a spec into tasks, when implementation order is unclear, or when horizontal layering is tempting |
+| [planning-and-task-breakdown](skills/planning-and-task-breakdown/SKILL.md) | Decompose specs into small, verifiable tasks with acceptance criteria and dependency ordering | You have a spec and need implementable units |
 
 ### Build - Write the code
 

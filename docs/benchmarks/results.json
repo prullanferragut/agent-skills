@@ -1,0 +1,42 @@
+[
+  {
+    "runDate": "2026-05-23T23:51:27.083Z",
+    "model": "claude-sonnet-4-6 (opencode subagents)",
+    "task": "Build a social network",
+    "results": [
+      {
+        "variant": "zero-shot",
+        "score": {
+          "exactlyOneQuestion": false,
+          "confidencePresent": false,
+          "guessPresent": false,
+          "noFluff": true,
+          "total": 1
+        },
+        "response": "\"Build a social network\" is broad enough to describe a dozen different products. Before going further, I need to scope this.\n\nThis repo is a collection of agent skills — so I'll note that context, but this social network appears to be a net-new product built here.\n\nFirst question: **What is the primary use case for this social network?**\n\n- A) Developer/tech community (think Hacker News, Dev.to)\n- B) Interest-based community (hobby groups, niche topics)\n- C) Professional networking (think LinkedIn)\n- D) General-purpose (think Twitter/Facebook clone)"
+      },
+      {
+        "variant": "chaff-shot",
+        "score": {
+          "exactlyOneQuestion": true,
+          "confidencePresent": true,
+          "guessPresent": true,
+          "noFluff": true,
+          "total": 4
+        },
+        "response": "HYPOTHESIS: You want a platform where people can connect, share content, and interact with each other — and \"social network\" was the shorthand that came to mind, but the actual scope, audience, and core mechanic are still undefined.\nCONFIDENCE: ~15%\n\n---\n\nQ: Who are the people using this, and what's the one thing you want them to be able to do with each other that they can't do well anywhere else?\n\nGUESS: This is probably not a general-purpose Facebook clone. My guess is there's a specific community or interaction type in mind — maybe a niche interest group, a professional network for a particular industry, or a way for people in a specific context (local area, hobby, team) to coordinate. The \"social network\" framing is the convention, but the real value is something narrower."
+      },
+      {
+        "variant": "wheat-shot",
+        "score": {
+          "exactlyOneQuestion": true,
+          "confidencePresent": true,
+          "guessPresent": true,
+          "noFluff": true,
+          "total": 4
+        },
+        "response": "HYPOTHESIS: You want to build a social network for a specific community or use case you already have in mind, and \"social network\" is the shorthand you reached for because it captures the general shape.\nCONFIDENCE: ~20%\n\nQ: Who are the people using this — a specific group you already have access to (coworkers, a hobby community, a niche audience), or are you trying to build a public network open to anyone?\n\nGUESS: a specific community, not a general public platform — most people who say \"build a social network\" have a particular group in mind, not a Facebook-scale ambition."
+      }
+    ]
+  }
+]
