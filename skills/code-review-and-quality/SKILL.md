@@ -50,20 +50,14 @@ Can another engineer (or agent) understand this code without the author explaini
 
 Does the change fit the system's design, and does it move the codebase toward **deeper modules**?
 
-**Vocabulary** (use these terms exactly — don't substitute "service", "component", or "boundary"):
-
-- **Module** — anything with an interface and an implementation (function, class, package, slice).
-- **Interface** — everything a caller must know: types, invariants, error modes, ordering, config. Not just the type signature.
-- **Depth** — leverage at the interface: a large amount of behaviour behind a small interface. **Deep** = high leverage. **Shallow** = interface nearly as complex as the implementation.
-- **Seam** — where an interface lives; a place behaviour can be altered without editing in place.
-- **Deletion test** — imagine deleting the module. If complexity vanishes, it was a pass-through. If complexity reappears across N callers, it was earning its keep.
+Use precise vocabulary: a **module** has an interface and an implementation; **depth** is how much behaviour hides behind a small interface; a **seam** is where an interface lives — the boundary a caller crosses to use a module, and the place where you can swap one implementation for another without touching callers; the **deletion test** asks: if you deleted this module, would complexity vanish (it was a pass-through) or reappear across callers (it was earning its keep).
 
 **Questions to ask:**
 
 - Does it follow existing patterns, or introduce a new one? If new, is it justified?
-- Are new modules **deep** — a large amount of behaviour behind a small interface — or **shallow**?
+- Are new modules **deep** or **shallow**? (Deep: large behaviour behind a small interface.)
 - Does it maintain clean **seams** — places where behaviour can be altered without editing in place?
-- Apply the **deletion test** to any new module added by this change.
+- Apply the **deletion test** to any new module: delete it mentally — if complexity vanishes it was a shallow pass-through (remove or absorb it); if complexity reappears across callers it was earning its keep (keep it).
 - Is there code duplication that should be pulled behind a shared interface?
 - Are dependencies flowing in the right direction (no circular dependencies)?
 - Is the abstraction level appropriate — not over-engineered, not too coupled?
@@ -72,13 +66,14 @@ Does the change fit the system's design, and does it move the codebase toward **
 
 - **Files** — which files/modules are involved
 - **Problem** — why the current structure causes friction (use the vocabulary above)
-- **Solution** — plain English description of what would change
+- **Solution** — plain English description of the problem's shape and direction of fix (e.g. 'this module should own the retry logic its callers currently duplicate') — not a designed interface
 - **Benefits** — in terms of locality (change concentrated in one place) and leverage (more capability per unit of interface)
 - **Recommendation strength** — `Strong`, `Worth exploring`, or `Speculative`
+- **Next step** — one of: `open a follow-up task`, `block merge pending refactor`, or `note in commit message`
 
 If a candidate contradicts an existing ADR, mark it: "contradicts ADR-XXXX — but worth reopening because…". Only surface it when friction is real enough to justify revisiting.
 
-Do **not** propose a new interface inline during a review. Flag the candidate and let it become a dedicated task.
+Do **not** design a new interface inline during a review (no type signatures, no API shapes). Describe the direction; leave the design to a dedicated task.
 
 ### 4. Security
 
@@ -309,9 +304,10 @@ Part of code review is dependency review:
 - [ ] No unnecessary complexity
 
 ### Architecture
-- [ ] Follows existing patterns
-- [ ] No unnecessary coupling or dependencies
-- [ ] Appropriate abstraction level
+- [ ] Follows existing patterns or new pattern is justified
+- [ ] New modules are deep (large behaviour behind small interface), not shallow pass-throughs
+- [ ] Deletion test applied to any new module
+- [ ] No unnecessary coupling; seams are clean
 
 ### Security
 - [ ] No secrets in code
