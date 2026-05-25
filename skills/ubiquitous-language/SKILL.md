@@ -106,6 +106,8 @@ If any condition is missing, skip the ADR. Most decisions do not need one.
 
 **ADR format** (`docs/adr/0001-slug.md`, sequential numbering):
 
+> **Parallel agent conflict prevention:** Sequential ADR numbers create conflicts when multiple agents or engineers write ADRs at the same time. To avoid collisions: use a timestamp-based filename instead (`YYYY-MM-DD-slug.md`) or assign the next available number only at commit time by checking the existing `docs/adr/` directory immediately before writing. Never assume a number is available without checking.
+
 ```markdown
 # {Short title of the decision}
 
@@ -124,6 +126,8 @@ That's it. An ADR can be a single paragraph. Only add optional sections (`Status
 ### Step 5 — Cross-reference downstream skills
 
 If a spec file (`docs/spec-*.md` or equivalent) exists and is actively being drafted, search it for the alias terms listed in `_Avoid_` for the entry you just added. If any alias appears in the spec, flag it to the user: state the old alias, the canonical name, and which file:line needs updating. Do not silently substitute — use the `question` tool with options: "Yes, replace all alias occurrences with the canonical name", "No, leave the spec as-is for now", or "Replace only specific occurrences (specify)".
+
+> **Search all active spec files, not just the current one.** A monorepo or multi-service project may have several in-progress spec files. An alias used in a spec you are not currently editing will silently persist and drift. Run the alias search across all `docs/spec-*.md` files (or equivalent) before closing the update.
 
 ## Multi-context repos
 
