@@ -75,7 +75,7 @@ If a formal plan from `planning-and-task-breakdown` exists with multiple tasks, 
 
 | Phase | Entry gate | Exit gate |
 |-------|-----------|-----------|
-| SPEC | Task described | Spec approved by user |
+| SPEC | Task described with enough specificity to identify at least one acceptance criterion. If the task is too vague, surface the lack of specificity before initializing — ask for one concrete success condition before opening SPEC. | Spec approved by user |
 | PLAN | Spec approved | Plan approved by user |
 | BUILD | Plan approved | All tasks verified complete |
 | TEST | Tasks complete | Verification output shown and passing |
@@ -96,6 +96,18 @@ Phases are not always linear. When a phase must be revisited (e.g., TEST fails a
 1. Set the previously-completed phase back to `in_progress`
 2. Do **not** add a duplicate item — update the existing one
 3. When it passes again, mark it `completed` and re-advance
+
+> **Regression loop cap:** If the same phase regresses more than twice without reaching its exit gate, stop and surface the repeated failure to the user. Present these options: "Continue with a modified approach", "Decompose the failing task further", or "Escalate — needs human decision." Do not continue looping silently past two regressions.
+
+## Resuming Mid-Task
+
+When resuming a task where prior phases have already been completed (e.g., SPEC and PLAN are done, resuming at BUILD):
+
+1. Initialize only the remaining phases as `pending` or `in_progress`.
+2. Mark already-completed phases as `completed` immediately.
+3. Do not initialize all phases as `pending` — this misrepresents the true state of the work.
+
+If you are unsure which phases are complete, review the conversation history or committed files before initializing.
 
 ## Completion
 
