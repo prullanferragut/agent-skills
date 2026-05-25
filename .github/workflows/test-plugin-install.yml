@@ -20,6 +20,32 @@ jobs:
       - name: Validate all skills
         run: node scripts/validate-skills.js
 
+  test-scorer:
+    name: Test response scorer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run scorer tests
+        run: node scripts/score-response.test.js
+
+  test-hooks:
+    name: Test session hooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test session-start hook
+        run: bash hooks/session-start-test.sh
+
+      - name: Test simplify-ignore hook
+        run: bash hooks/simplify-ignore-test.sh
+
   validate:
     name: Validate plugin structure
     needs: validate-skills
