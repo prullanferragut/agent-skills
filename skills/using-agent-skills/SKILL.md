@@ -20,7 +20,6 @@ Task arrives
     ├── Have a rough concept, need variants? → idea-refine
     ├── Domain term unfamiliar or contested? → ubiquitous-language
     ├── New project/feature/change? ──→ spec-driven-development
-    ├── Breaking spec into slices? ────→ vertical-slicing
     ├── Have a spec, need tasks? ──────→ planning-and-task-breakdown
     ├── Implementing code? ────────────→ incremental-implementation
     │   ├── UI work? ─────────────────→ frontend-ui-engineering
@@ -143,17 +142,16 @@ For a complete feature, the typical skill sequence is:
 2.  idea-refine                 → Refine vague ideas
 3.  spec-driven-development     → Define what we're building
 4.  ubiquitous-language         → Establish shared vocabulary before planning
-5.  vertical-slicing            → Determine slice boundaries before task breakdown
-6.  planning-and-task-breakdown → Break into verifiable chunks
-7.  context-engineering         → Load the right context
-8.  source-driven-development   → Verify against official docs
-9.  incremental-implementation  → Build slice by slice
-10. doubt-driven-development    → Cross-examine non-trivial decisions in-flight
-11. test-driven-development     → Prove each slice works
-12. code-review-and-quality     → Review before merge
-13. git-workflow-and-versioning → Clean commit history
-14. documentation-and-adrs      → Document decisions
-15. shipping-and-launch         → Deploy safely
+5.  planning-and-task-breakdown → Break into vertically-sliced, verifiable chunks
+6.  context-engineering         → Load the right context
+7.  source-driven-development   → Verify against official docs
+8.  incremental-implementation  → Build slice by slice
+9.  doubt-driven-development    → Cross-examine non-trivial decisions in-flight
+10. test-driven-development     → Prove each slice works
+11. code-review-and-quality     → Review before merge
+12. git-workflow-and-versioning → Clean commit history
+13. documentation-and-adrs      → Document decisions
+14. shipping-and-launch         → Deploy safely
 ```
 
 Not every task needs every skill. A bug fix might only need: `debugging-and-error-recovery` → `test-driven-development` → `code-review-and-quality`.
@@ -168,8 +166,7 @@ Phases map 1:1 to the slash commands. See `references/lifecycle.md` for the cano
 | Spec | `/spec` | idea-refine | Refine ideas through structured divergent and convergent thinking |
 | Spec | `/spec` | spec-driven-development | Requirements and acceptance criteria before code |
 | Spec | `/spec` | ubiquitous-language | Shared domain vocabulary — CONTEXT.md and lightweight ADRs |
-| Plan | `/plan` | vertical-slicing | Thin end-to-end slices, each independently demoable |
-| Plan | `/plan` | planning-and-task-breakdown | Decompose into small, verifiable tasks |
+| Plan | `/plan` | planning-and-task-breakdown | Vertically-sliced, verifiable tasks with tracer bullet, HITL/AFK types, and dependency ordering |
 | Build | `/build` | incremental-implementation | Thin vertical slices, test each before expanding |
 | Build | `/build` | source-driven-development | Verify against official docs before implementing |
 | Build | `/build` | doubt-driven-development | Adversarial fresh-context review of every non-trivial decision |
