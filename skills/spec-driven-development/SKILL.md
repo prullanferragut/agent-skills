@@ -63,6 +63,8 @@ Pick the branch that matches the question:
 
 Rules for both: name it clearly as a prototype, locate it near the code it explores, no polish, delete it when done. Capture the answer in a commit message or ADR before deleting the prototype. The prototype has answered the question when you can state the decision in one sentence without hedging. If the prototype raises new design questions instead of answering the original one, capture them in the spec's Open Questions section and proceed — prototypes that open more questions than they close are a signal the design space is too large to prototype, not a reason to keep building.
 
+> **Loop-back constraint:** if new questions opened by the prototype are architectural (they would change the system design or data model), return to Phase 1 and resolve them before writing any spec content. Limit this loop-back to one iteration — if the second prototype also raises new architectural questions, the design space is genuinely unclear. Document the open questions, proceed with explicit uncertainty acknowledged in the spec, and mark those sections as provisional.
+
 **Surface assumptions immediately.** Before writing any spec content, list what you're assuming:
 
 ```
