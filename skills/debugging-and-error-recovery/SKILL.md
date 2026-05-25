@@ -74,7 +74,7 @@ Can you reproduce the failure with a reliable loop?
     ├── For timing-dependent bugs: add stress, parallelise, inject sleeps
     ├── For environment-dependent bugs: compare versions, env vars, data state
     ├── For state-dependent bugs: check leaked state, globals, shared caches
-    └── If truly impossible: document conditions, add defensive logging, revisit when it recurs
+    └── If truly impossible: stop — list what you tried, ask the user for environment access, captured artifacts, or permission to add production instrumentation. Do not proceed to Step 2.
 ```
 
 ### Step 2: Localize
@@ -103,6 +103,8 @@ git bisect run npm test -- --grep "failing test"
 
 ### Step 3: Reduce
 
+Use your working hypotheses from Step 3b to guide what is irrelevant to strip away — reduce toward the boundary that your leading hypothesis predicts.
+
 Create the minimal failing case:
 
 - Remove unrelated code/config until only the bug remains
@@ -126,7 +128,7 @@ Show the ranked list to the user before testing — they often have domain knowl
 2. **Targeted logs** at the boundaries that distinguish hypotheses.
 3. Never "log everything and grep".
 
-Tag every debug log with a unique prefix, e.g. `[DEBUG-a4f2]`. Cleanup at the end becomes a single grep.
+Tag every debug log with a unique prefix, e.g. `[DEBUG-auth-flow]`. Cleanup at the end becomes a single grep.
 
 ### Step 4: Fix the Root Cause
 
@@ -163,7 +165,7 @@ This test will prevent the same bug from recurring. It should fail without the f
 
 **Post-mortem:** After the fix is in, ask: what would have prevented this bug? If the answer involves architectural change — no good test seam existed, modules were too tightly coupled — note it for an architecture review. The `code-review-and-quality` Architecture axis covers how to assess this.
 
-Remove all `[DEBUG-...]` instrumentation before closing (grep the prefix).
+Remove all `[DEBUG-...]` instrumentation before closing (grep the prefix) (see Step 3b for the tagging convention).
 
 ### Step 6: Verify End-to-End
 
