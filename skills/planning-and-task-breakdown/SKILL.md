@@ -18,6 +18,7 @@ A vertical slice cuts through all layers of the stack — schema, API, logic, UI
 - Work needs to be parallelized across multiple agents or sessions
 - You need to communicate scope to a human
 - The implementation order is not obvious
+- Any task title describes a layer rather than a behavior ("Add database schema", "Build API endpoints")
 
 **When NOT to use:** Single-file changes with obvious scope, or when the spec already contains well-defined tasks.
 
@@ -99,6 +100,8 @@ Mark these explicitly so they are not handed to an AFK agent that will block.
 
 A slice that an agent can implement, test, and merge without human interaction. The majority of slices should be AFK. If a slice requires human judgment mid-implementation, it is either a HITL slice or it is not well-enough specified.
 
+**How to decide:**
+
 | Use HITL when... | Use AFK when... |
 | ---------------- | --------------- |
 | Acceptance criteria reference taste or judgment ("looks correct", "makes sense") | Acceptance criteria are fully mechanical (test passes, API returns X) |
@@ -112,6 +115,8 @@ If uncertain, mark as HITL. A false HITL blocks briefly; a false AFK blocks inde
 - **Tracer bullet first:** The first slice is always the tracer bullet — the thinnest possible path that proves end-to-end connectivity.
 - **Dependency order:** If Slice B cannot exist without Slice A (e.g., "mark complete" requires a task to exist), A comes first.
 - **Risk order:** Put the riskiest slice early. A risky slice is one where the approach is uncertain, the integration is novel, or failure would invalidate subsequent slices. Discovering a risk early is cheap. Discovering it after five slices is expensive.
+
+For a full analysis of inter-component dependencies, see Step 4 — run that analysis first if the dependency relationships between slices are unclear.
 
 #### Write Each Slice
 
@@ -169,6 +174,8 @@ Database schema
 Implementation order follows the dependency graph bottom-up: build foundations first.
 
 ### Step 5: Write Tasks
+
+Each slice from Step 3 becomes one or more tasks. A task is the executable work item derived from a slice — it adds concrete verification steps, file estimates, and scope sizing to the behavioral unit the slice defines.
 
 Each task follows this structure:
 
@@ -317,6 +324,12 @@ When multiple agents or sessions are available:
 - All tasks are XL-sized
 - No checkpoints between tasks
 - Dependency order is not considered
+
+## See Also
+
+- `incremental-implementation` — governs how to execute a single slice: implement → test → verify → commit
+- `spec-driven-development` — produces the spec that behaviors are derived from
+- `test-driven-development` — each slice follows red-green-refactor; the tracer bullet is the first red-green cycle
 
 ## Verification
 
