@@ -7,9 +7,9 @@ description: Use at the start of any development task alongside lifecycle skills
 
 ## Overview
 
-Companion skill — activates alongside lifecycle skills to maintain a live `TodoWrite` list mapped to the active workflow phases so the user always sees where they are and what comes next.
+Companion skill — activates alongside lifecycle skills to maintain a live phase tracker mapped to the active workflow phases so the user always sees where they are and what comes next.
 
-Requires the `TodoWrite` tool.
+Prefers the `TodoWrite` tool when available. Falls back to inline markdown output when it is not (see [Fallback](#fallback-no-todowrite)).
 
 ## When to Use
 
@@ -85,7 +85,7 @@ If a formal plan from `planning-and-task-breakdown` exists with multiple tasks, 
 
 ## Real-time Updates
 
-Update `TodoWrite` items in real time as gates are passed — do not batch updates.
+Update tracker items in real time as gates are passed — do not batch updates.
 
 Mark a phase `completed` the moment its exit gate is reached. Mark the next phase `in_progress` immediately after.
 
@@ -113,24 +113,57 @@ If you are unsure which phases are complete, review the conversation history or 
 
 The tracker is complete when SHIP is marked `completed`.
 
+## Fallback (No TodoWrite)
+
+If the `TodoWrite` tool is not available in the current environment (e.g. pi, OpenCode, or any agent harness that lacks it), print a formatted tracker block directly in the conversation output.
+
+Use this exact format:
+
+```
+📋 WORKFLOW TRACKER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅  SPEC     — spec written and approved
+✅  PLAN     — plan written and approved
+🔄  BUILD    — all tasks complete         ← current
+⏳  TEST     — verification output shown
+⏳  REVIEW   — code review passed
+⏳  SIMPLIFY — complexity reduced
+⏳  SHIP     — branch merged / PR created
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Legend: `✅` completed · `🔄` in progress · `⏳` pending
+
+Print the block immediately on task start, and **reprint the full updated block after every phase transition** — do not emit a partial diff. This gives the user a consistent snapshot each time.
+
+When expanding BUILD into per-task items, list each task on its own line:
+
+```
+🔄  BUILD    — task 1: <task name>        ← current
+⏳  BUILD    — task 2: <task name>
+⏳  BUILD    — task 3: <task name>
+```
+
 ## Common Rationalizations
 
 | Rationalization | Reality |
 |---|---|
-| "The user can track phases themselves" | Agents lose phase context across tool calls. An explicit `TodoWrite` list is the only reliable signal of current position. |
+| "The user can track phases themselves" | Agents lose phase context across tool calls. An explicit tracker is the only reliable signal of current position. |
+| "I don't have TodoWrite so I'll skip tracking" | The fallback markdown block provides equivalent visibility. Always emit it. |
 
 ## Red Flags
 
 - Initializing phases not relevant to the invoked command (use the table above to scope correctly)
-- Batching `TodoWrite` updates instead of updating each phase as its gate is passed
+- Batching tracker updates instead of updating each phase as its gate is passed
 - Marking a phase `completed` before its exit gate is actually reached
-- Adding duplicate `TodoWrite` items when a phase regresses — update the existing item instead
+- Adding duplicate items when a phase regresses — update the existing item instead
 - Forgetting to mark the next phase `in_progress` immediately after marking the current one `completed`
+- Skipping the fallback block because `TodoWrite` is unavailable — always emit the markdown block instead
 
 ## Verification
 
 After initialization:
-- [ ] `TodoWrite` list created with correct phases for the invoked command
+- [ ] Tracker created (via `TodoWrite` or fallback markdown block) with correct phases for the invoked command
 - [ ] Current phase is marked `in_progress`
 - [ ] Future phases are marked `pending`
 - [ ] Any already-completed phases are marked `completed`
@@ -139,3 +172,4 @@ After each phase transition:
 - [ ] Completed phase is marked `completed`
 - [ ] Next phase is marked `in_progress` immediately
 - [ ] No duplicate items in the list
+- [ ] If using fallback: full block reprinted with updated statuses
