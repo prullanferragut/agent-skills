@@ -140,7 +140,6 @@ The commands above are entry points. The pack includes 25 skills total — 23 li
 |-------|-------------|----------|
 | [spec-driven-development](skills/spec-driven-development/SKILL.md) | Discovers intent (one-question-at-a-time interview when ask is underspecified) then writes a structured spec covering objectives, commands, structure, code style, testing, and boundaries | Starting a new project, feature, or significant change; or when the ask is underspecified / user invokes "interview me" / "grill me" |
 | [idea-refine](skills/idea-refine/SKILL.md) | Structured divergent/convergent thinking to turn vague ideas into concrete proposals | You have a rough concept that needs exploration |
-| [ubiquitous-language](skills/ubiquitous-language/SKILL.md) | Maintains a living domain glossary (CONTEXT.md) and lightweight ADRs so the agent and team share precise vocabulary across sessions | Starting work on an unfamiliar codebase, when a domain term is ambiguous or contested, or when a naming decision needs to be locked in |
 
 ### Plan - Break it down
 
@@ -252,7 +251,7 @@ agent-skills/
 │   ├── interview-me/                  #   Spec (merged → spec-driven-development)
 │   ├── idea-refine/                   #   Spec
 │   ├── spec-driven-development/       #   Spec
-│   ├── ubiquitous-language/           #   Spec
+│   ├── ubiquitous-language/           #   Spec (merged → spec-driven-development + documentation-and-adrs)
 │   ├── planning-and-task-breakdown/   #   Plan
 │   ├── incremental-implementation/    #   Build
 │   ├── context-engineering/           #   Build

@@ -24,18 +24,27 @@ Document decisions, not just code. The most valuable documentation captures the 
 
 ADRs capture the reasoning behind significant technical decisions. They're the highest-value documentation you can write.
 
-### When to Write an ADR
+Write an ADR only when **all three** conditions are true:
+
+1. **Hard to reverse** — the cost of changing the decision later is meaningful
+2. **Surprising without context** — a future reader would wonder “why did they do it this way?”
+3. **Result of a real trade-off** — genuine alternatives existed and one was chosen for specific reasons
+
+If any condition is missing, skip the ADR. Most decisions do not need one. Common examples that do qualify:
 
 - Choosing a framework, library, or major dependency
 - Designing a data model or database schema
 - Selecting an authentication strategy
 - Deciding on an API architecture (REST vs. GraphQL vs. tRPC)
 - Choosing between build tools, hosting platforms, or infrastructure
-- Any decision that would be expensive to reverse
+- Deliberate deviations from the obvious path — anything where a reasonable reader would assume the opposite
+- Constraints not visible in the code (“we can’t use AWS because of compliance requirements”)
 
 ### ADR Template
 
 Store ADRs in `docs/decisions/` with sequential numbering:
+
+> **Parallel agent conflict prevention:** Sequential numbers collide when multiple agents or engineers write ADRs simultaneously. To avoid this: use `YYYY-MM-DD-slug.md` timestamp naming, or assign the next available number only at commit time by checking `docs/decisions/` immediately before writing. Never assume a number is available without checking.
 
 ```markdown
 # ADR-001: Use PostgreSQL for primary database

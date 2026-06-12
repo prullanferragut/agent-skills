@@ -126,13 +126,26 @@ Before writing any spec content, look for:
 - `docs/adr/` — architectural decisions that constrain the design space. Don't spec something an ADR has already ruled out without surfacing the conflict.
 
 If terminology is fuzzy or conflicts with `CONTEXT.md`, run the grilling loop before writing:
-1. Interview the user one question at a time about each contested term.
-2. Provide your recommended definition before asking.
-3. When a term is resolved, update `CONTEXT.md` immediately — don't batch. If it does not exist, create it at the repo root with a `# Context: [Project Name]` heading and a `## Glossary` section before adding the first term.
-4. `CONTEXT.md` is a glossary only: no implementation details, no file paths.
-5. Offer an ADR only when a decision is hard to reverse, surprising without context, and the result of a real trade-off.
 
-Stop the grilling loop when no contested terms remain. If a term is contested for three consecutive exchanges, document the ambiguity in Open Questions and proceed.
+1. **Discover existing context.** Look for `CONTEXT-MAP.md` first — if it exists, find the relevant bounded context and read that context's `CONTEXT.md`. If only a root `CONTEXT.md` exists, read it. If neither exists, create `CONTEXT.md` lazily when the first term is ready (heading `# Context: [Project Name]`, section `## Language`).
+
+2. **Check for conflict.** Does `CONTEXT.md` already define this concept under a different name? If so, use the `question` tool: "Use the existing term as canonical, mark new term as alias", "Use the new term as canonical, update existing references", or "Define a third term (specify)".
+
+3. **Interview one at a time.** Provide your recommended definition before asking. Stop when no contested terms remain. If a term is contested for three consecutive exchanges without resolution, document the ambiguity in Open Questions and proceed.
+
+4. **Write the entry** under `## Language` immediately — do not batch:
+   ```
+   **[Term]**:
+   [One or two sentences. What it IS, not what it does. No implementation details.]
+   _Avoid_: [synonym], [alias]
+   ```
+   If the term's boundaries with related concepts are non-obvious, add a short example dialogue that shows where one concept ends and another begins.
+
+5. **CONTEXT.md constraints:** glossary only — no class names, table names, API paths, specs, plans, or general programming concepts a reader could infer without domain knowledge.
+
+6. **Scan for alias drift.** After adding an entry, search all in-progress spec files for any terms listed under `_Avoid_`. If found, use the `question` tool: "Replace all alias occurrences with the canonical name", "Leave as-is for now", or "Replace only specific occurrences (specify)".
+
+7. **Offer an ADR** only when a decision is hard to reverse, surprising without context, and the result of a real trade-off. See `documentation-and-adrs` for the format and the 3-condition threshold.
 
 **Consider a prototype before speccing.** If a key design question is uncertain:
 - **"Does this logic / state model feel right?"** → Build a small interactive terminal app. Minimal state in memory, simple REPL or menu loop, print full state after every action. One command to run. No tests, no persistence, no abstractions.

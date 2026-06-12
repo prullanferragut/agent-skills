@@ -40,7 +40,7 @@ Each phase is primarily served by one or more skills:
 
 | Phase | Primary skills |
 |-------|---------------|
-| SPEC | `spec-driven-development`, `idea-refine`, `ubiquitous-language` |
+| SPEC | `spec-driven-development`, `idea-refine` |
 | PLAN | `planning-and-task-breakdown` |
 | BUILD | `incremental-implementation`, `test-driven-development`, `frontend-ui-engineering`, `api-and-interface-design`, `source-driven-development`, `context-engineering`, `doubt-driven-development` |
 | TEST | `test-driven-development`, `browser-testing-with-devtools`, `debugging-and-error-recovery` |
