@@ -1,3 +1,8 @@
+---
+name: claude-setup
+description: Setup and configuration documentation for the agent-skills Claude plugin.
+---
+
 # agent-skills
 
 This is the agent-skills project — a collection of production-grade engineering skills for AI coding agents.
@@ -15,7 +20,7 @@ docs/         → Setup guides for different tools
 
 ## Skills by Phase
 
-**SPEC:** interview-me, idea-refine, spec-driven-development, ubiquitous-language
+**SPEC:** spec-driven-development, idea-refine, ubiquitous-language
 **PLAN:** planning-and-task-breakdown
 **BUILD:** incremental-implementation, test-driven-development, context-engineering, source-driven-development, doubt-driven-development, frontend-ui-engineering, api-and-interface-design
 **TEST:** test-driven-development, browser-testing-with-devtools, debugging-and-error-recovery

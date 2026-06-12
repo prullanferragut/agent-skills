@@ -1,3 +1,8 @@
+---
+name: agents
+description: Guidance for AI coding agents (Claude Code, Cursor, Copilot) on skill-driven execution and repository structure. Repository documentation.
+---
+
 # AGENTS.md
 
 This file provides guidance to AI coding agents (Claude Code, Cursor, Copilot, Antigravity, etc.) when working with code in this repository.

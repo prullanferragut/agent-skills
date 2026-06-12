@@ -43,7 +43,7 @@ Each vertical slice is independently demoable. If the project stops after Slice 
 
 ### Step 1: Enter Plan Mode
 
-> **Gate:** Before planning, confirm that a written spec or confirmed intent statement exists. If neither exists, stop and invoke `spec-driven-development` or `interview-me` first. Do not produce a task list for an unwritten spec — the plan will encode agent assumptions, not requirements.
+> **Gate:** Before planning, confirm that a written spec or confirmed intent statement exists. If neither exists, stop and invoke `spec-driven-development` first. Do not produce a task list for an unwritten spec — the plan will encode agent assumptions, not requirements.
 
 Before writing any code, operate in read-only mode:
 

@@ -1,3 +1,8 @@
+---
+name: contributing
+description: Contribution guidelines and skill quality standards for the agent-skills project.
+---
+
 # Contributing to Agent Skills
 
 Thanks for your interest in contributing! This project is a collection of production-grade engineering skills for AI coding agents.

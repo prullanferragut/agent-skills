@@ -167,7 +167,7 @@ The user calls a command. The command loads a skill. The skill may invoke a pers
 
 | Phase | What happens | Layer | Skill / Persona / Command | Output |
 |-------|-------------|-------|---------------------------|--------|
-| **1. Define** | User runs `/spec`. Agent runs `interview-me` to surface the real requirement (tags per task, not per user; no tag hierarchy needed). | Command → Skill | `/spec` → `spec-driven-development` | `SPEC.md` with acceptance criteria |
+| **1. Define** | User runs `/spec`. Agent runs `spec-driven-development` — interviews to surface the real requirement (Phase 0) then writes the spec (Phase 1). | Command → Skill | `/spec` → `spec-driven-development` | `SPEC.md` with acceptance criteria |
 | **2. Align vocabulary** | "Tag" appears in the spec without a definition. Agent runs `ubiquitous-language` and adds `Tag` to `CONTEXT.md`. | Skill | `ubiquitous-language` | `CONTEXT.md` updated |
 | **3. Plan** | User runs `/plan`. Agent applies `planning-and-task-breakdown` to identify behaviors, produce three vertical slices (create tag, assign tag to task, filter tasks by tag), mark Slice 1 as the tracer bullet, and write tasks with acceptance criteria. | Command → Skill | `/plan` → `planning-and-task-breakdown` | `tasks/plan.md`, `tasks/todo.md` |
 | **4. Build – Slice 1** | User runs `/build`. Agent loads `incremental-implementation` and `test-driven-development`. Writes a failing test for "create tag," implements the minimum schema + API + UI, makes test pass, commits. | Command → Skill | `/build` → `incremental-implementation` + `test-driven-development` | Passing tests, committed slice |

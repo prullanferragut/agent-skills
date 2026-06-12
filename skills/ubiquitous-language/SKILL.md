@@ -1,6 +1,6 @@
 ---
 name: ubiquitous-language
-description: Maintains a living domain glossary (CONTEXT.md) and lightweight ADRs so the agent and team share precise vocabulary across sessions. Use when starting work on an unfamiliar codebase, when a domain term is ambiguous or contested, when an architectural decision is being made that is hard to reverse, or when spec-driven-development or interview-me surfaces a term that does not yet exist in CONTEXT.md.
+description: Maintains a living domain glossary (CONTEXT.md) and lightweight ADRs so the agent and team share precise vocabulary across sessions. Use when starting work on an unfamiliar codebase, when a domain term is ambiguous or contested, when an architectural decision is being made that is hard to reverse, or when spec-driven-development surfaces a term that does not yet exist in CONTEXT.md.
 ---
 
 # Ubiquitous Language
@@ -9,13 +9,13 @@ description: Maintains a living domain glossary (CONTEXT.md) and lightweight ADR
 
 Agents forget terminology between sessions. Teams argue about what words mean. Code drifts from the language the domain experts use. This skill maintains `CONTEXT.md` — a strict domain glossary — and `docs/adr/` — a record of architectural decisions — so that vocabulary is consistent across every session, every skill, and every team member.
 
-This skill does **not** conduct interviews (that is `interview-me`) and does **not** write specs (that is `spec-driven-development`). Its only job is vocabulary and decision capture.
+This skill does **not** conduct interviews or write specs (that is `spec-driven-development`). Its only job is vocabulary and decision capture.
 
 ## When to Use
 
 - A domain term appears in conversation that is not in `CONTEXT.md`
 - A term in conversation conflicts with a definition already in `CONTEXT.md`
-- `interview-me` or `spec-driven-development` resolves a naming decision
+- `spec-driven-development` resolves a naming decision
 - An architectural decision is made that meets the ADR threshold (see below)
 - Starting work on a codebase with no `CONTEXT.md` yet
 - A team member uses a different word for a concept that already has a canonical name
@@ -23,7 +23,7 @@ This skill does **not** conduct interviews (that is `interview-me`) and does **n
 **NOT for:**
 - General project documentation (use `documentation-and-adrs`)
 - Implementation decisions that are easy to reverse
-- Anything covered by `interview-me` or `spec-driven-development`
+- Anything covered by `spec-driven-development`
 
 ## Process
 

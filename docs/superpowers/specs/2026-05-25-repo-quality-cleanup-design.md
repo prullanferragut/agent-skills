@@ -93,7 +93,9 @@ docs/specs/
 docs/tasks/
 ```
 
-These are ephemeral agent-generated planning artifacts. They are not deleted — just excluded from git tracking so they don't show as untracked noise. The `wheat/` empty directory is also untracked and will disappear once `.gitignore` stops showing it; if it persists, delete it.
+These are ephemeral agent-generated planning artifacts. They are not deleted — just excluded from git tracking so they don't show as untracked noise.
+
+Also delete the empty `wheat/` directory: `rm -rf wheat/`. It is untracked and empty; gitignore alone won't remove it from `git status` output since there is nothing to ignore.
 
 ---
 

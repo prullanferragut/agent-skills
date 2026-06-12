@@ -51,7 +51,7 @@ You are the gate between each phase. The agent cannot proceed to PLAN until you 
 | Skill | Source | Purpose |
 | ----- | ------ | ------- |
 | `brainstorming` | superpowers | One-question-at-a-time interview; proposes 2–3 approaches; writes spec to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`; you must approve before anything else happens |
-| `interview-me` | agent-skills | Alternative entry point — surfaces what you actually want vs what you said |
+| `spec-driven-development` | agent-skills | Alternative entry point — interviews to surface what you actually want (Phase 0), then writes the spec |
 | `ubiquitous-language` | agent-skills | Fires when an unfamiliar domain term appears; updates `CONTEXT.md` immediately; sparingly offers ADRs |
 
 **Your job:** Answer questions one at a time. Approve or revise the spec. Do not let the agent skip to planning.

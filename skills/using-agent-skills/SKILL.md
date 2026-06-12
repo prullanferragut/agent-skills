@@ -16,7 +16,7 @@ When a task arrives, identify the development phase and apply the corresponding 
 ```
 Task arrives
     │
-    ├── Don't know what you want yet? ──────→ interview-me
+    ├── Underspecified ask / want to be interviewed? → spec-driven-development
     ├── Have a rough concept, need variants? → idea-refine
     ├── Domain term unfamiliar or contested? → ubiquitous-language
     ├── New project/feature/change? ──→ spec-driven-development
@@ -138,9 +138,9 @@ These are the subtle errors that look like productivity but create problems:
 For a complete feature, the typical skill sequence is:
 
 ```
-1.  interview-me                → Extract what the user actually wants
+1.  spec-driven-development     → Define what we're building (runs intent interview for underspecified asks)
 2.  idea-refine                 → Refine vague ideas
-3.  spec-driven-development     → Define what we're building
+3.  ubiquitous-language         → Establish shared vocabulary before planning
 4.  ubiquitous-language         → Establish shared vocabulary before planning
 5.  planning-and-task-breakdown → Break into vertically-sliced, verifiable chunks
 6.  context-engineering         → Load the right context
@@ -162,9 +162,7 @@ Phases map 1:1 to the slash commands. See `references/lifecycle.md` for the cano
 
 | Phase | Slash Command | Skill | One-Line Summary |
 |-------|--------------|-------|-----------------|
-| Spec | `/spec` | interview-me | Surface what the user actually wants before any plan, spec, or code exists |
-| Spec | `/spec` | idea-refine | Refine ideas through structured divergent and convergent thinking |
-| Spec | `/spec` | spec-driven-development | Requirements and acceptance criteria before code |
+| Spec | `/spec` | spec-driven-development | Discover intent (interview) + write requirements and acceptance criteria before code |
 | Spec | `/spec` | ubiquitous-language | Shared domain vocabulary — CONTEXT.md and lightweight ADRs |
 | Plan | `/plan` | planning-and-task-breakdown | Vertically-sliced, verifiable tasks with tracer bullet, HITL/AFK types, and dependency ordering |
 | Build | `/build` | incremental-implementation | Thin vertical slices, test each before expanding |

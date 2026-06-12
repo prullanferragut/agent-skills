@@ -1,3 +1,8 @@
+---
+name: agent-skills-readme
+description: Project overview, commands, and quick start guide for the agent-skills collection.
+---
+
 # Agent Skills
 
 **Production-grade engineering skills for AI coding agents.**
@@ -133,9 +138,8 @@ The commands above are entry points. The pack includes 25 skills total — 23 li
 
 | Skill | What It Does | Use When |
 |-------|-------------|----------|
-| [interview-me](skills/interview-me/SKILL.md) | One-question-at-a-time interview that extracts what the user actually wants instead of what they think they should want, until ~95% confidence | The ask is underspecified, or the user invokes "interview me" / "grill me" |
+| [spec-driven-development](skills/spec-driven-development/SKILL.md) | Discovers intent (one-question-at-a-time interview when ask is underspecified) then writes a structured spec covering objectives, commands, structure, code style, testing, and boundaries | Starting a new project, feature, or significant change; or when the ask is underspecified / user invokes "interview me" / "grill me" |
 | [idea-refine](skills/idea-refine/SKILL.md) | Structured divergent/convergent thinking to turn vague ideas into concrete proposals | You have a rough concept that needs exploration |
-| [spec-driven-development](skills/spec-driven-development/SKILL.md) | Write a PRD covering objectives, commands, structure, code style, testing, and boundaries before any code | Starting a new project, feature, or significant change |
 | [ubiquitous-language](skills/ubiquitous-language/SKILL.md) | Maintains a living domain glossary (CONTEXT.md) and lightweight ADRs so the agent and team share precise vocabulary across sessions | Starting work on an unfamiliar codebase, when a domain term is ambiguous or contested, or when a naming decision needs to be locked in |
 
 ### Plan - Break it down
@@ -245,7 +249,7 @@ Every skill follows a consistent anatomy:
 ```
 agent-skills/
 ├── skills/                            # 25 skills (23 lifecycle + 2 meta)
-│   ├── interview-me/                  #   Spec
+│   ├── interview-me/                  #   Spec (merged → spec-driven-development)
 │   ├── idea-refine/                   #   Spec
 │   ├── spec-driven-development/       #   Spec
 │   ├── ubiquitous-language/           #   Spec
